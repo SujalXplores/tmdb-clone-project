@@ -1,5 +1,4 @@
 import { lazy, useEffect, type FunctionComponent } from "react";
-import AccordionDetails from "../../../../components/AccordionDetails";
 import Typography from "../../../../components/Typography";
 import { Box, Chip, RadioGroup } from "@mui/material";
 import { useGlobalState } from "../../../../store/store";
@@ -11,6 +10,8 @@ import FormControlLabel from "../../../../components/FormControlLabel";
 import QuestionMarkTooltip from "../../../../components/QuestionMarkTooltip";
 import FilterSectionTitle from "../../../../components/FilterSectionTitle";
 import CustomTooltip from "../../../../components/Tooltip";
+import FilterAccordionDetails from "../../../../components/FilterAccordionDetails";
+import ToggleChipGroup from "../../../../components/ToggleChipGroup";
 
 const LanguageFilter = lazy(() => import("./LanguageFilter"));
 const AvailabilitiesFilter = lazy(() => import("./AvailabilitiesFilter"));
@@ -27,13 +28,13 @@ const FilterTab: FunctionComponent<{
 	const { state, dispatch } = useGlobalState();
 	const { filters } = state;
 
-	const pageURl = useLocation().pathname;
+	const pageURL = useLocation().pathname;
 
 	useEffect(() => {
 		const isTvDefault =
-			pageURl === "/tv" ||
-			pageURl === "/tv/airing-today" ||
-			pageURl === "/tv/on-the-air";
+			pageURL === "/tv" ||
+			pageURL === "/tv/airing-today" ||
+			pageURL === "/tv/on-the-air";
 
 		dispatch({
 			type: "INIT_PAGE_FILTERS", // Use the new action!
@@ -45,7 +46,7 @@ const FilterTab: FunctionComponent<{
 			},
 		});
 
-		if (pageURl === "/movie/upcoming" || pageURl === "/movie/now-playing") {
+		if (pageURL === "/movie/upcoming" || pageURL === "/movie/now-playing") {
 			dispatch({
 				type: "INIT_PAGE_FILTERS",
 				payload: {
@@ -54,16 +55,11 @@ const FilterTab: FunctionComponent<{
 				},
 			});
 		}
-	}, [pageURl, dispatch]);
+	}, [pageURL, dispatch]);
 
 	return (
 		<>
-			<AccordionDetails
-				sx={{
-					borderBottom: "1px solid #e5e7eb",
-					borderRadius: "8px 8px 0 0",
-				}}
-			>
+			<FilterAccordionDetails>
 				<Typography
 					fontWeight={300}
 					sx={{
@@ -107,7 +103,7 @@ const FilterTab: FunctionComponent<{
 						sx={{ cursor: "pointer" }}
 					/>
 				</RadioGroup>
-			</AccordionDetails>
+			</FilterAccordionDetails>
 
 			{/* Availabilities Filter */}
 			<AvailabilitiesFilter dispatch={dispatch} filters={filters} />
@@ -118,86 +114,37 @@ const FilterTab: FunctionComponent<{
 				selectedCountry={selectedCountry}
 				dispatch={dispatch}
 				filters={filters}
-				pageURl={pageURl}
+				pageURL={pageURL}
 			/>
 
 			{/* Genre Filter */}
-			<GenreFilter dispatch={dispatch} filters={filters} pageURl={pageURl} />
+			<GenreFilter dispatch={dispatch} filters={filters} pageURL={pageURL} />
 
 			{/* Certification Filter */}
-			<AccordionDetails
-				sx={{
-					borderBottom: "1px solid #e5e7eb",
-					borderRadius: "8px 8px 0 0",
-				}}
-			>
+			<FilterAccordionDetails>
 				<FilterSectionTitle title='Certifications' />
-				<Box mt={"-8px"}>
-					{["U", "UA", "A"]?.map((certification) => {
-						const currentCertificationsStr = filters?.certification?.split("|");
-
-						const isSelected = currentCertificationsStr?.find(
-							(cert) => cert === certification,
-						);
-
-						return (
-							<Chip
-								key={certification}
-								label={certification}
-								variant={isSelected ? "filled" : "outlined"}
-								sx={{
-									cursor: "pointer",
-									backgroundColor: isSelected ? "#01b4e4" : "",
-									borderColor: "#9e9e9e",
-									color: isSelected ? "white" : "#000",
-									marginRight: "8px",
-									marginTop: "8px",
-									fontSize: "0.9rem",
-									fontWeight: 400,
-									display: "inline-flex",
-									borderRadius: "14px",
-									"&:hover ": {
-										backgroundColor: "#01b4e4 !important",
-										textDecoration: "underline",
-										color: "#fff",
-										borderColor: "#01b4e4",
-										textUnderlineOffset: "3px",
-									},
-								}}
-								onClick={() => {
-									let newCertificationArray: string[];
-
-									if (isSelected) {
-										newCertificationArray =
-											currentCertificationsStr?.filter(
-												(cert) => cert !== certification,
-											) || [];
-									} else {
-										newCertificationArray = [
-											...(currentCertificationsStr || []),
-											certification,
-										];
-									}
-
-									dispatch({
-										type: "SET_FILTERS",
-										payload: {
-											...filters,
-											certification:
-												newCertificationArray.length > 0
-													? newCertificationArray.join("|")
-													: null,
-										},
-									});
-								}}
-							/>
-						);
-					})}
-				</Box>
-			</AccordionDetails>
+				<ToggleChipGroup
+					options={[
+						{ id: "U", label: "U" },
+						{ id: "UA", label: "UA" },
+						{ id: "A", label: "A" },
+					]}
+					value={filters?.certification}
+					delimiter='|'
+					onChange={(newValue) => {
+						dispatch({
+							type: "SET_FILTERS",
+							payload: {
+								...filters,
+								certification: newValue,
+							},
+						});
+					}}
+				/>
+			</FilterAccordionDetails>
 
 			{/* Network Filter */}
-			{pageURl.includes("tv") && (
+			{pageURL.includes("tv") && (
 				<NetworkFilter dispatch={dispatch} filters={filters} />
 			)}
 

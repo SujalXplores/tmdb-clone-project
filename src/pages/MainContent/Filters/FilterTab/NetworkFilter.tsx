@@ -1,11 +1,4 @@
-import {
-	useEffect,
-	useRef,
-	useState,
-	type Dispatch,
-	type FunctionComponent,
-} from "react";
-import AccordionDetails from "../../../../components/AccordionDetails";
+import { useState, type Dispatch, type FunctionComponent } from "react";
 import Autocomplete from "../../../../components/AutoComplete";
 import FilterSectionTitle from "../../../../components/FilterSectionTitle";
 import TextField from "../../../../components/TextField";
@@ -17,19 +10,20 @@ import type {
 import { useData } from "../../../../lib/useData";
 import Typography from "../../../../components/Typography";
 import { Box } from "@mui/material";
+import FilterAccordionDetails from "../../../../components/FilterAccordionDetails";
+import { useDebouncedSearch } from "../../../../hooks/useDebouncedSearch";
 
 const NetworkFilter: FunctionComponent<{
 	dispatch: Dispatch<Action>;
 	filters: DiscoverFiltersType;
 }> = ({ dispatch, filters }) => {
 	const [tvNetworksSearchValue, setTvNetworkSearchValue] = useState<string>("");
-	const [tvNetworksDebouncedSearchValue, setTvNetworksDebouncedSearchValue] =
-		useState<string>("");
+	const { debouncedValue: tvNetworksDebouncedSearchValue, reset } =
+		useDebouncedSearch(tvNetworksSearchValue);
 	const [selectedNetworks, setSelectedNetworks] = useState<
 		Array<TvNetworksType>
 	>([]);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const hasCrossedThreshold = useRef<boolean>(false);
 
 	const { data: tvNetworks, isFetching } = useData<{
 		page: number;
@@ -50,26 +44,6 @@ const NetworkFilter: FunctionComponent<{
 		},
 	});
 
-	useEffect(() => {
-		const timerId = setTimeout(() => {
-			const currentLength = tvNetworksSearchValue.trim().length;
-			if (currentLength === 0) {
-				hasCrossedThreshold.current = false;
-				setTvNetworksDebouncedSearchValue("");
-				return;
-			}
-
-			if (currentLength >= 2) {
-				hasCrossedThreshold.current = true;
-			}
-			if (hasCrossedThreshold.current) {
-				setTvNetworksDebouncedSearchValue(tvNetworksSearchValue.trim());
-			}
-		}, 500);
-
-		return () => clearTimeout(timerId);
-	}, [tvNetworksSearchValue]);
-
 	const shouldShowMenu =
 		tvNetworksSearchValue.length > 0 &&
 		tvNetworksDebouncedSearchValue.length > 0 &&
@@ -78,17 +52,11 @@ const NetworkFilter: FunctionComponent<{
 	const handleBlur = () => {
 		setIsOpen(false);
 		setTvNetworkSearchValue("");
-		setTvNetworksDebouncedSearchValue("");
-		hasCrossedThreshold.current = false;
+		reset();
 	};
 
 	return (
-		<AccordionDetails
-			sx={{
-				borderBottom: "1px solid #e5e7eb",
-				borderRadius: "8px 8px 0 0",
-			}}
-		>
+		<FilterAccordionDetails>
 			<FilterSectionTitle title='Network' />
 			<Autocomplete
 				multiple
@@ -106,9 +74,11 @@ const NetworkFilter: FunctionComponent<{
 				}
 				isOptionEqualToValue={(option, value) => option.id === value.id}
 				value={selectedNetworks}
-				placeholder={filters?.with_networks && filters?.with_networks?.length > 0
-					? ""
-					: 'Filter by TV networks...'}
+				placeholder={
+					filters?.with_networks && filters?.with_networks?.length > 0
+						? ""
+						: "Filter by TV networks..."
+				}
 				onChange={(_event, newValue) => {
 					setSelectedNetworks(newValue);
 					const newIdsString =
@@ -186,13 +156,12 @@ const NetworkFilter: FunctionComponent<{
 						setTvNetworkSearchValue(value);
 					} else if (reason === "clear") {
 						setTvNetworkSearchValue("");
-						setTvNetworksDebouncedSearchValue("");
-						hasCrossedThreshold.current = false;
+						reset();
 					}
 				}}
 				fullWidth
 			/>
-		</AccordionDetails>
+		</FilterAccordionDetails>
 	);
 };
 
