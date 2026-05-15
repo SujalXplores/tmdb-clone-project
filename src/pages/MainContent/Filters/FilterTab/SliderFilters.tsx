@@ -1,9 +1,9 @@
 import type { Dispatch, FunctionComponent } from "react";
+import AccordionDetails from "../../../../components/AccordionDetails";
 import FilterSectionTitle from "../../../../components/FilterSectionTitle";
 import Slider from "../../../../components/Slider";
 import type { Action } from "../../../../types/common";
 import type { DiscoverFiltersType } from "../../../../types/filters";
-import FilterAccordionDetails from "../../../../components/FilterAccordionDetails";
 
 const SliderFilter: FunctionComponent<{
 	dispatch: Dispatch<Action>;
@@ -99,7 +99,12 @@ const SliderFilter: FunctionComponent<{
 
 	return (
 		<>
-			<FilterAccordionDetails>
+			<AccordionDetails
+				sx={{
+					borderBottom: "1px solid #e5e7eb",
+					borderRadius: "8px 8px 0 0",
+				}}
+			>
 				<FilterSectionTitle title='User Score' />
 				<Slider
 					getAriaLabel={() => "User Score"}
@@ -122,8 +127,13 @@ const SliderFilter: FunctionComponent<{
 						`Rated ${filters["vote_average.gte"]} - ${filters["vote_average.lte"]}`
 					}
 				/>
-			</FilterAccordionDetails>
-			<FilterAccordionDetails>
+			</AccordionDetails>
+			<AccordionDetails
+				sx={{
+					borderBottom: "1px solid #e5e7eb",
+					borderRadius: "8px 8px 0 0",
+				}}
+			>
 				<FilterSectionTitle title='Minimum User Votes' />
 				<Slider
 					getAriaLabel={() => "Minimum User Votes"}
@@ -138,8 +148,13 @@ const SliderFilter: FunctionComponent<{
 					marks={generateMarks(0, 500, 50, [0, 100, 200, 300, 400, 500])}
 					step={50}
 				/>
-			</FilterAccordionDetails>
-			<FilterAccordionDetails>
+			</AccordionDetails>
+			<AccordionDetails
+				sx={{
+					borderBottom: "1px solid #e5e7eb",
+					borderRadius: "8px 8px 0 0",
+				}}
+			>
 				<FilterSectionTitle title='Runtime' />
 				<Slider
 					getAriaLabel={() => "Runtime"}
@@ -160,7 +175,7 @@ const SliderFilter: FunctionComponent<{
 						`${filters["with_runtime.gte"]} minutes - ${filters["with_runtime.lte"]} minutes`
 					}
 				/>
-			</FilterAccordionDetails>
+			</AccordionDetails>
 		</>
 	);
 };

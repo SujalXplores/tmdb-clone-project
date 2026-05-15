@@ -172,30 +172,6 @@ export const SELECT_STYLES = {
 	},
 };
 
-export const SEARCH_FIELD_STYLES: SxProps<Theme> = {
-	"& .MuiSelect-select": {
-		padding: "8.5px 14px",
-		fontSize: "14px",
-	},
-	"& .MuiOutlinedInput-root": {
-		borderRadius: "0.375rem",
-		fontSize: "14px",
-	},
-	"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-		borderColor: "#01b3e460 !important",
-	},
-	"& .MuiAutocomplete-input": {
-		cursor: "pointer",
-	},
-	"& .MuiOutlinedInput-root.MuiInputBase-sizeSmall": {
-		minHeight: "38px",
-	},
-	"& .MuiOutlinedInput-notchedOutline": {
-		border: "0.8px solid #01b3e460 !important",
-		borderRadius: "0.375rem",
-	},
-};
-
 export const COUNTRY_OPTIONS: Array<CountriesType> = [
 	{
 		flagUrl:

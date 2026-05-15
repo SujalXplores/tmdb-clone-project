@@ -17,7 +17,6 @@ import { useLocation } from "react-router";
 import { useData } from "../../../lib/useData";
 import QuestionMarkTooltip from "../../../components/QuestionMarkTooltip";
 import CustomTooltip from "../../../components/Tooltip";
-import FilterAccordionDetails from "../../../components/FilterAccordionDetails";
 
 const WhereToWatchFilter = lazy(() => import("./WhereToWatchTab"));
 const FilterTab = lazy(() => import("./FilterTab/FiltersTab"));
@@ -34,15 +33,15 @@ const AllFiltersComponent: FunctionComponent<{
 		window.innerWidth < 1160,
 	);
 
-	const pageURL = useLocation().pathname;
+	const pageUrl = useLocation().pathname;
 
 	const selectedCountry = COUNTRY_OPTIONS.find(
 		(item) => item.iso_3166_1 === filters.watch_region,
 	);
 
 	const { data } = useData<OTTProviderType>({
-		queryKey: ["ott_providers", filters.watch_region, pageURL],
-		url: `/watch/providers/${pageURL.includes("movie") ? "movie" : "tv"}`,
+		queryKey: ["ott_providers", filters.watch_region, pageUrl],
+		url: `/watch/providers/${pageUrl.includes("movie") ? "movie" : "tv"}`,
 		params: { language: "en-US", watch_region: selectedCountry?.iso_3166_1 },
 	});
 
@@ -191,7 +190,12 @@ const AllFiltersComponent: FunctionComponent<{
 					</div>
 				}
 			>
-				<FilterAccordionDetails>
+				<AccordionDetails
+					sx={{
+						borderBottom: "1px solid #e5e7eb",
+						borderRadius: "8px 8px 0 0",
+					}}
+				>
 					<Typography
 						fontWeight={300}
 						mb={"10px"}
@@ -218,7 +222,7 @@ const AllFiltersComponent: FunctionComponent<{
 							Restrict searches to my subscribed services?
 						</Typography>
 					</Box>
-				</FilterAccordionDetails>
+				</AccordionDetails>
 				<AccordionDetails>
 					<WhereToWatchFilter
 						countriesData={countriesData}

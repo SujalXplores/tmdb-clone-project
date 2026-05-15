@@ -26,17 +26,17 @@ const MoviesContent = () => {
 
 	const filterContainerRef = useRef<HTMLDivElement>(null);
 
-	const pageURL = useLocation().pathname;
+	const pageUrl = useLocation().pathname;
 
 	const endpoint = isFiltered
-		? `/discover/${API_URL_FOR_PAGE[pageURL].includes("movie") ? "movie" : "tv"}`
-		: `/${API_URL_FOR_PAGE[pageURL]}`;
+		? `/discover/${API_URL_FOR_PAGE[pageUrl].includes("movie") ? "movie" : "tv"}`
+		: `/${API_URL_FOR_PAGE[pageUrl]}`;
 
 	const params = { ...appliedFilters };
 
 	const { data, fetchNextPage, isLoading, isFetchingNextPage, hasNextPage } =
 		useInfiniteData<MovieType>({
-			queryKey: ["movies&tv", endpoint, appliedFilters, pageURL],
+			queryKey: ["movies&tv", endpoint, appliedFilters, pageUrl],
 			url: endpoint,
 			params: isFiltered
 				? { ...params, language: "en-US" }
@@ -55,8 +55,8 @@ const MoviesContent = () => {
 	});
 
 	const headerTitle = useMemo(() => {
-		return PAGE_URL_TITLE_MAP[pageURL] || "Movies";
-	}, [pageURL]);
+		return PAGE_URL_TITLE_MAP[pageUrl] || "Movies";
+	}, [pageUrl]);
 
 	const toggleMenu = (menuName: string) => {
 		setOpenMenus((prev) =>
