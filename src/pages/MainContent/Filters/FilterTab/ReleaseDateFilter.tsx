@@ -2,18 +2,10 @@ import Checkbox from "../../../../components/Checkbox";
 import FormControlLabel from "../../../../components/FormControlLabel";
 import {
 	Box,
-	InputAdornment,
-	ListSubheader,
-	MenuItem,
-	Select,
 } from "@mui/material";
 import Typography from "../../../../components/Typography";
-import TextField from "../../../../components/TextField";
 import DatePicker from "../../../../components/Datepicker";
 import {
-	useMemo,
-	useRef,
-	useState,
 	type Dispatch,
 	type FunctionComponent,
 } from "react";
@@ -25,20 +17,20 @@ import type { Action } from "../../../../types/common";
 import dayjs, { Dayjs } from "dayjs";
 import {
 	COUNTRY_OPTIONS,
-	MENU_PAPER_PROPS,
 	SELECT_STYLES,
 } from "../../../../constants/filterConstants";
-import AccordionDetails from "../../../../components/AccordionDetails";
 import FilterSectionTitle from "../../../../components/FilterSectionTitle";
-import { Search } from "@mui/icons-material";
+import FilterAccordionDetails from "../../../../components/FilterAccordionDetails";
+import SearchableSelect from "../../../../components/SearchableSelect";
+import CountryOption from "../../../../components/CountryOption";
 
 const ReleaseDateFilter: FunctionComponent<{
 	countriesData: Array<CountriesType>;
 	selectedCountry?: CountriesType;
 	dispatch: Dispatch<Action>;
 	filters: DiscoverFiltersType;
-	pageURl: string;
-}> = ({ dispatch, filters, pageURl }) => {
+	pageURL: string;
+}> = ({ dispatch, filters, pageURL }) => {
 	const fromDate = filters["release_date.gte"]
 		? dayjs(filters["release_date.gte"])
 		: null;
@@ -50,12 +42,7 @@ const ReleaseDateFilter: FunctionComponent<{
 		(fromDate && toDate && fromDate.isAfter(toDate)) || false;
 
 	return (
-		<AccordionDetails
-			sx={{
-				borderBottom: "1px solid #e5e7eb",
-				borderRadius: "8px 8px 0 0",
-			}}
-		>
+		<FilterAccordionDetails>
 			<FilterSectionTitle title='Release Dates' />
 			<FormControlLabel
 				sx={{
@@ -82,8 +69,8 @@ const ReleaseDateFilter: FunctionComponent<{
 			/>
 
 			{(filters.with_release_type ||
-				pageURl === "/movie/upcoming" ||
-				pageURl === "/movie/now-playing") && (
+				pageURL === "/movie/upcoming" ||
+				pageURL === "/movie/now-playing") && (
 				<FormControlLabel
 					control={
 						<Checkbox
@@ -109,7 +96,26 @@ const ReleaseDateFilter: FunctionComponent<{
 			)}
 
 			{filters.with_release_type && filters.region && (
-				<CountryFilter dispatch={dispatch} filters={filters} />
+				<SearchableSelect
+					options={COUNTRY_OPTIONS}
+					value={filters.region}
+					getOptionKey={(o) => o.iso_3166_1 ?? ""}
+					getSearchFields={(o) => [o.native_name, o.english_name]}
+					renderOption={(option, isSelectedDisplay) => (
+						<CountryOption
+							flagUrl={option.flagUrl}
+							nativeName={option.native_name}
+							isSelectedDisplay={isSelectedDisplay}
+						/>
+					)}
+					onSelect={(option) => {
+						dispatch({
+							type: "SET_FILTERS",
+							payload: { ...filters, region: option.iso_3166_1 },
+						});
+					}}
+					selectSx={{ ...SELECT_STYLES, marginBottom: "10px" }}
+				/>
 			)}
 
 			{filters.with_release_type && (
@@ -231,265 +237,8 @@ const ReleaseDateFilter: FunctionComponent<{
 					}}
 				/>
 			</Box>
-		</AccordionDetails>
+		</FilterAccordionDetails>
 	);
 };
 
 export default ReleaseDateFilter;
-
-const CountryFilter: FunctionComponent<{
-	dispatch: Dispatch<Action>;
-	filters: DiscoverFiltersType;
-	selectedCountry?: CountriesType;
-}> = ({ dispatch, filters }) => {
-	const [searchTerm, setSearchTerm] = useState<string>("");
-	const searchFieldRef = useRef<HTMLInputElement>(null);
-	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-	const activeSelection = useMemo(
-		() =>
-			COUNTRY_OPTIONS.find((o) => o.iso_3166_1 === filters.region) ||
-			COUNTRY_OPTIONS[0],
-		[filters.region],
-	);
-
-	const filteredOptions = useMemo(() => {
-		const cleanSearch = searchTerm.toLowerCase().trim();
-		if (!cleanSearch) return COUNTRY_OPTIONS;
-		return COUNTRY_OPTIONS.filter(
-			(opt) =>
-				opt?.native_name?.toLowerCase().includes(cleanSearch) ||
-				opt.english_name?.toLowerCase().includes(cleanSearch),
-		);
-	}, [searchTerm]);
-
-	const handleMenuOpened = () => {
-		searchFieldRef.current?.focus();
-
-		if (scrollContainerRef.current) {
-			const selectedItem =
-				scrollContainerRef.current.querySelector(".Mui-selected");
-			if (selectedItem) {
-				selectedItem.scrollIntoView({ block: "nearest" });
-			}
-		}
-	};
-
-	const renderOptionLabel = (
-		option: (typeof COUNTRY_OPTIONS)[0],
-		selectedValue?: boolean,
-	) => (
-		<Box
-			sx={{
-				color: "getContrastText()",
-				fontSize: "0.875rem",
-				display: "flex",
-				alignItems: "center",
-				gap: 1,
-				...(selectedValue && {
-					overflow: "hidden",
-					whiteSpace: "nowrap",
-					textOverflow: "ellipsis",
-				}),
-				...(!selectedValue && {
-					wordBreak: "break-word",
-					whiteSpace: "normal",
-					lineHeight: "1.4",
-				}),
-			}}
-		>
-			<CountryFlag
-				flagUrl={option.flagUrl || ""}
-				countryName={option.native_name || ""}
-				size={selectedValue ? 24 : 20}
-			/>
-			<Typography sx={{ fontSize: "0.9rem", color: "getContrastText()" }}>
-				{option.native_name}
-			</Typography>
-		</Box>
-	);
-
-	return (
-		<Select
-			fullWidth
-			displayEmpty
-			onOpen={() => {
-				setSearchTerm("");
-				setIsOpen(true);
-			}}
-			open={isOpen}
-			onClose={() => setIsOpen(false)}
-			renderValue={() => renderOptionLabel(activeSelection, true)}
-			MenuProps={{
-				autoFocus: false,
-				PaperProps: MENU_PAPER_PROPS,
-				TransitionProps: { onEntered: handleMenuOpened },
-				anchorOrigin: { vertical: "bottom", horizontal: "left" },
-				transformOrigin: { vertical: "top", horizontal: "left" },
-			}}
-			IconComponent={() => (
-				<Box
-					onClick={(e) => {
-						e.stopPropagation();
-						setIsOpen((prev) => !prev);
-					}}
-					sx={{
-						padding: "0.375rem",
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						cursor: "pointer",
-					}}
-				>
-					<svg
-						viewBox='0 0 512 512'
-						focusable='false'
-						xmlns='http://www.w3.org/2000/svg'
-						fill='#212529'
-						width={"1rem"}
-						height={"1rem"}
-					>
-						<path d='M256 352 128 160h256z'></path>
-					</svg>
-				</Box>
-			)}
-			sx={{
-				...SELECT_STYLES,
-				marginBottom: "10px",
-			}}
-		>
-			<ListSubheader
-				sx={{
-					p: "0.75rem",
-					backgroundColor: "white",
-					zIndex: 10,
-					position: "sticky",
-					top: 0,
-				}}
-				onKeyDown={(e) => e.stopPropagation()}
-			>
-				<TextField
-					size='small'
-					fullWidth
-					inputRef={searchFieldRef}
-					placeholder='Filter'
-					value={searchTerm}
-					onChange={(e) => setSearchTerm(e.target.value)}
-					InputProps={{
-						startAdornment: (
-							<InputAdornment position='start'>
-								<Search fontSize='small' />
-							</InputAdornment>
-						),
-					}}
-					sx={{
-						"& .MuiSelect-select": {
-							padding: "8.5px 14px",
-
-							fontSize: "14px",
-						},
-
-						"& .MuiOutlinedInput-root": {
-							borderRadius: "0.375rem",
-
-							fontSize: "14px",
-						},
-
-						"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-							{
-								borderColor: "#01b3e460 !important",
-							},
-
-						"& .MuiAutocomplete-input": {
-							cursor: "pointer",
-						},
-
-						"& .MuiOutlinedInput-root.MuiInputBase-sizeSmall": {
-							minHeight: "38px",
-						},
-
-						"& .MuiOutlinedInput-notchedOutline": {
-							border: "0.8px solid #01b3e460 !important",
-
-							borderRadius: "0.375rem",
-						},
-					}}
-				/>
-			</ListSubheader>
-
-			<Box
-				ref={scrollContainerRef}
-				sx={{
-					overflowY: "auto",
-					overflowX: "hidden",
-					flex: 1,
-				}}
-			>
-				{filteredOptions.length > 0 ? (
-					filteredOptions.map((option) => (
-						<MenuItem
-							key={option.iso_3166_1 || "none"}
-							value={option.iso_3166_1 || ""}
-							selected={option.iso_3166_1 === activeSelection.iso_3166_1}
-							onClick={() => {
-								dispatch({
-									type: "SET_FILTERS",
-									payload: {
-										...filters,
-										region: option.iso_3166_1,
-									},
-								});
-							}}
-							sx={{
-								py: 1,
-								"&.Mui-selected": {
-									backgroundColor: "#01b3e4 !important",
-									color: "#fff",
-									"&:hover": { backgroundColor: "#032541 !important" },
-								},
-							}}
-						>
-							{renderOptionLabel(option, false)}
-						</MenuItem>
-					))
-				) : (
-					<MenuItem disabled sx={{ justifyContent: "center", py: 4 }}>
-						No Data Found.
-					</MenuItem>
-				)}
-			</Box>
-		</Select>
-	);
-};
-
-const CountryFlag: FunctionComponent<{
-	flagUrl: string;
-	countryName: string;
-	size: number;
-}> = ({ flagUrl, countryName, size }) => {
-	const [hasError, setHasError] = useState(false);
-
-	if (hasError) {
-		return (
-			<Box
-				sx={{
-					color: "#888",
-					width: size,
-					height: size,
-				}}
-			/>
-		);
-	}
-
-	return (
-		<img
-			loading='lazy'
-			width={size}
-			srcSet={`https://www.themoviedb.org${flagUrl}`}
-			src={`https://www.themoviedb.org${flagUrl}`}
-			alt={`${countryName} flag`}
-			onError={() => setHasError(true)}
-		/>
-	);
-};
