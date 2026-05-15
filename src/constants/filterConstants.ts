@@ -4,6 +4,9 @@ import {
 	type LanguagesOptionsType,
 } from "./../types/filters";
 
+import type { SxProps, Theme } from "@mui/material";
+import type { SystemStyleObject } from "@mui/system";
+
 export const FILTER_CONSTANTS = {
 	SORT: "sort_by",
 	WHERE_TO_WATCH: "watch_region",
@@ -99,11 +102,13 @@ export const FILTERS_INITIAL_STATE: DiscoverFiltersType = {
 	"with_runtime.lte": 400,
 };
 
-export const withMenuProps = (overrides: Record<string, any> = {}) => ({
-    sx: {
-        ...MENU_PAPER_PROPS.sx,
-        ...overrides,
-    },
+export const withMenuProps = (
+	overrides: SystemStyleObject<Theme> = {},
+): { sx: SxProps<Theme> } => ({
+	sx: {
+		...(MENU_PAPER_PROPS.sx as SystemStyleObject<Theme>),
+		...overrides,
+	},
 });
 
 export const MENU_PAPER_PROPS = {

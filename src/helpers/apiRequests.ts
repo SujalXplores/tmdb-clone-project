@@ -13,8 +13,8 @@ const request = async <T>({
 }: {
 	url: string;
 	method?: "GET" | "POST" | "PUT" | "DELETE";
-	params?: Record<string, any>;
-	body?: any;
+	params?: Record<string, string | number | boolean | null | undefined>;
+	body?: unknown;
 	baseUrl?: string;
 }): Promise<T> => {
 	try {
@@ -53,10 +53,26 @@ const request = async <T>({
 
 		const data = await response.json();
 		return data as T;
-	} catch (error: any) {
+	} catch (error: unknown) {
+		const isObject = typeof error === "object" && error !== null;
+		const status_code =
+			isObject &&
+			"status_code" in error &&
+			typeof (error as { status_code: unknown }).status_code === "number"
+				? (error as { status_code: number }).status_code
+				: 500;
+		const status_message =
+			isObject &&
+			"status_message" in error &&
+			typeof (error as { status_message: unknown }).status_message === "string"
+				? (error as { status_message: string }).status_message
+				: error instanceof Error
+					? error.message
+					: "Network error";
+
 		throw {
-			status_code: error.status_code ?? 500,
-			status_message: error.status_message || error.message || "Network error",
+			status_code,
+			status_message,
 			success: false,
 		};
 	}
