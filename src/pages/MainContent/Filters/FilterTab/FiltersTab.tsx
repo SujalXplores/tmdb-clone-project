@@ -35,25 +35,19 @@ const FilterTab: FunctionComponent<{
 			pageURl === "/tv/airing-today" ||
 			pageURl === "/tv/on-the-air";
 
+		const isReleaseTypeRoute =
+			pageURl === "/movie/upcoming" || pageURl === "/movie/now-playing";
+
 		dispatch({
-			type: "INIT_PAGE_FILTERS", // Use the new action!
+			type: "INIT_PAGE_FILTERS",
 			payload: {
-				...FILTERS_INITIAL_STATE, // Always start fresh on a new page
+				...FILTERS_INITIAL_STATE,
 				with_watch_monetization_types: isTvDefault
 					? "flatrate|free|ads|rent|buy"
 					: null,
+				with_release_type: isReleaseTypeRoute ? "3" : null,
 			},
 		});
-
-		if (pageURl === "/movie/upcoming" || pageURl === "/movie/now-playing") {
-			dispatch({
-				type: "INIT_PAGE_FILTERS",
-				payload: {
-					...filters,
-					with_release_type: "3",
-				},
-			});
-		}
 	}, [pageURl, dispatch]);
 
 	return (

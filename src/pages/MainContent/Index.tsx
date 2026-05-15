@@ -1,4 +1,4 @@
-import { lazy, useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import styles from "./MoviesContent.module.scss";
 import type { MovieType } from "../../types/movies";
 import {
@@ -109,7 +109,9 @@ const MoviesContent = () => {
 					<div className={styles.mainContent}>
 						<div>
 							<div className={styles.filtersContainer} ref={filterContainerRef}>
-								<AllFiltersComponent countriesData={countriesData || []} />
+								<Suspense fallback={<TopLoader />}>
+									<AllFiltersComponent countriesData={countriesData || []} />
+								</Suspense>
 							</div>
 							<Button
 								sx={{
