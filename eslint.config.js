@@ -3,35 +3,14 @@ import globals from "globals";
 import pluginReact from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import pluginImport from "eslint-plugin-import";
-import tsParser from "@typescript-eslint/parser";
-import tsPlugin from "@typescript-eslint/eslint-plugin";
 
 export default [
 	js.configs.recommended,
+	pluginReact.configs.flat.recommended, // Recommended config comes FIRST
 	{
-		files: ["**/*.{ts,tsx}"],
-		languageOptions: {
-			parser: tsParser,
-			parserOptions: {
-				ecmaVersion: "latest",
-				sourceType: "module",
-				ecmaFeatures: { jsx: true },
-			},
-		},
+		files: ["**/*.{js,mjs,cjs,jsx,ts,tsx}"], // Added TS/TSX just in case
 		plugins: {
-			"@typescript-eslint": tsPlugin,
-		},
-		rules: {
-			...tsPlugin.configs.recommended.rules,
-		},
-	},
-
-	pluginReact.configs.flat.recommended,
-
-	{
-		files: ["**/*.{js,mjs,cjs,jsx,ts,tsx}"],
-		plugins: {
-			import: pluginImport,
+			import: pluginImport, // 2. Register the plugin
 			"react-hooks": reactHooks,
 		},
 		languageOptions: {
@@ -41,17 +20,21 @@ export default [
 			},
 		},
 		rules: {
+			// --- THE FIX FOR YOUR ISSUE ---
 			"no-undef": "error",
 			"react/jsx-no-undef": ["error", { allowGlobals: false }],
 
+			// --- Import/Path Validation ---
 			"import/no-unresolved": "error",
 			"import/named": "error",
 
+			// --- React / Hooks ---
 			"react/react-in-jsx-scope": "off",
 			"react/jsx-use-react": "off",
 			"react-hooks/rules-of-hooks": "error",
 			"react-hooks/exhaustive-deps": "warn",
 
+			// --- General Cleanup ---
 			"no-unused-vars": [
 				"warn",
 				{
@@ -70,9 +53,9 @@ export default [
 				node: {
 					extensions: [".js", ".jsx", ".ts", ".tsx"],
 				},
-				typescript: {
-					project: "./tsconfig.json",
-				},
+				"typescript": {
+			      "project": "./tsconfig.json"
+			    }
 			},
 		},
 	},
