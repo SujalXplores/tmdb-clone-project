@@ -3,10 +3,10 @@ import logo from "../../assets/tmdb-logo.svg";
 import styles from "./Header.module.scss";
 import Popover from "@mui/material/Popover";
 import { useNavigate } from "react-router";
-import { useGlobalState } from "../../store/store";
+import { useUIState } from "../../store/store";
 
 const Header = () => {
-	const { state, dispatch } = useGlobalState();
+	const { isDrawerOpen, toggleDrawer } = useUIState();
 	const [hide, setHide] = useState<boolean>(false);
 	const [activeMenu, setActiveMenu] = useState<
 		"movies" | "tv" | "people" | "awards" | "more" | null
@@ -46,13 +46,13 @@ const Header = () => {
 			scrollPositionRef.current = currentPosition;
 		};
 
-		if (!state.isDrawerOpen)
+		if (!isDrawerOpen)
 			window.addEventListener("scroll", handleScroll, { passive: true });
 		return () => window.removeEventListener("scroll", handleScroll);
-	}, [state.isDrawerOpen]);
+	}, [isDrawerOpen]);
 
 	const handleDrawerToggle = () => {
-		dispatch({ type: "TOGGLE_DRAWER" });
+		toggleDrawer();
 	};
 	return (
 		<header className={`${styles.header} ${hide ? styles["hide-header"] : ""}`}>

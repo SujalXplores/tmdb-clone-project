@@ -9,15 +9,62 @@ import { useLocation } from "react-router";
 import { useData, useInfiniteData } from "../../lib/useData";
 import Button from "../../components/Button";
 import TopLoader from "../../shared/TopLoader";
-import { useGlobalState } from "../../store/store";
+import { useGlobalState, useUIState } from "../../store/store";
 import type { CountriesType } from "../../types/filters";
+import type { SxProps, Theme } from "@mui/material";
 import dayjs from "dayjs";
 
 const AllFiltersComponent = lazy(() => import("./Filters/AllFiltersComponent"));
 const MoviesContainer = lazy(() => import("./MoviesContainer/Movies"));
 
+const SEARCH_BUTTON_SX: SxProps<Theme> = {
+	backgroundColor: "#02B4E4",
+	fontSize: "1.2rem",
+	lineHeight: "1rem",
+	fontWeight: 600,
+	height: "44px",
+	marginTop: "20px",
+	borderRadius: "20px",
+	color: "#fff",
+	"&:hover": {
+		backgroundColor: "#032541",
+		color: "#ADB6BF",
+	},
+};
+
+const LOAD_MORE_BUTTON_SX: SxProps<Theme> = {
+	backgroundColor: "#02B4E4",
+	fontSize: "1.5rem",
+	fontWeight: 700,
+	lineHeight: "2.25rem",
+	height: "50px",
+	marginTop: "50px",
+	boxShadow: "none",
+	":hover": {
+		color: "rgba(10, 21, 38, 0.7)",
+		boxShadow: "none",
+	},
+};
+
+const STICKY_SEARCH_BUTTON_SX: SxProps<Theme> = {
+	position: "sticky",
+	bottom: 0,
+	backgroundColor: "#02B4E4",
+	fontSize: "1.2rem",
+	lineHeight: "1rem",
+	fontWeight: 600,
+	height: "50px",
+	borderRadius: "0px",
+	zIndex: 1500,
+	"&:hover": {
+		backgroundColor: "#032541",
+		color: "#ADB6BF",
+	},
+};
+
 const MoviesContent = () => {
 	const { state, dispatch } = useGlobalState();
+	const { isDrawerOpen } = useUIState();
 	const { appliedFilters, isDirty, isFiltered } = state;
 
 	const [isSearchButtonVisible, setIsSearchButtonVisible] =
@@ -25,6 +72,7 @@ const MoviesContent = () => {
 	const [openMenus, setOpenMenus] = useState<string[]>([]);
 
 	const filterContainerRef = useRef<HTMLDivElement>(null);
+	const loadMoreSentinelRef = useRef<HTMLDivElement>(null);
 
 	const pageURL = useLocation().pathname;
 
@@ -32,14 +80,12 @@ const MoviesContent = () => {
 		? `/discover/${API_URL_FOR_PAGE[pageURL].includes("movie") ? "movie" : "tv"}`
 		: `/${API_URL_FOR_PAGE[pageURL]}`;
 
-	const params = { ...appliedFilters };
-
 	const { data, fetchNextPage, isLoading, isFetchingNextPage, hasNextPage } =
 		useInfiniteData<MovieType>({
 			queryKey: ["movies&tv", endpoint, appliedFilters, pageURL],
 			url: endpoint,
 			params: isFiltered
-				? { ...params, language: "en-US" }
+				? { ...appliedFilters, language: "en-US" }
 				: {
 						language: "en-US",
 						include_adult: false,
@@ -54,9 +100,18 @@ const MoviesContent = () => {
 		params: {},
 	});
 
-	const headerTitle = useMemo(() => {
-		return PAGE_URL_TITLE_MAP[pageURL] || "Movies";
-	}, [pageURL]);
+	const headerTitle = useMemo(
+		() => PAGE_URL_TITLE_MAP[pageURL] || "Movies",
+		[pageURL],
+	);
+
+	const allResults = useMemo(
+		() => data?.pages?.flatMap((page) => page.results) ?? [],
+		[data?.pages],
+	);
+
+	const isSinglePage = data?.pages?.[0]?.total_pages === 1;
+	const showLoadMore = !isSinglePage && allResults.length > 0 && hasNextPage;
 
 	const toggleMenu = (menuName: string) => {
 		setOpenMenus((prev) =>
@@ -67,36 +122,40 @@ const MoviesContent = () => {
 	};
 
 	useEffect(() => {
-		const handleScroll = async () => {
-			if (
-				window.innerHeight + window.scrollY >=
-					document.body.offsetHeight - 100 &&
-				hasNextPage &&
-				!isFetchingNextPage
-			) {
-				await fetchNextPage();
-			}
-		};
+		const sentinel = loadMoreSentinelRef.current;
+		if (!sentinel || !hasNextPage || isFetchingNextPage) return;
 
-		if (data?.pageParams.length === 1) return;
-		window.addEventListener("scroll", handleScroll);
-		return () => window.removeEventListener("scroll", handleScroll);
-	}, [fetchNextPage, data?.pageParams.length, isFetchingNextPage]);
+		const observer = new IntersectionObserver(
+			(entries) => {
+				if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+					fetchNextPage();
+				}
+			},
+			{ rootMargin: "100px" },
+		);
+
+		observer.observe(sentinel);
+		return () => observer.disconnect();
+	}, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
 	useEffect(() => {
+		let frameId: number | null = null;
+
 		const handleScroll = () => {
-			if (
-				(filterContainerRef.current?.offsetHeight || 0) <=
-				window.scrollY + window.innerHeight - 147
-			) {
-				setIsSearchButtonVisible(false);
-			} else {
-				setIsSearchButtonVisible(true);
-			}
+			if (frameId !== null) return;
+			frameId = requestAnimationFrame(() => {
+				const containerHeight = filterContainerRef.current?.offsetHeight ?? 0;
+				setIsSearchButtonVisible(
+					containerHeight > window.scrollY + window.innerHeight - 147,
+				);
+				frameId = null;
+			});
 		};
-		window.addEventListener("scroll", handleScroll);
+
+		window.addEventListener("scroll", handleScroll, { passive: true });
 		return () => {
 			window.removeEventListener("scroll", handleScroll);
+			if (frameId !== null) cancelAnimationFrame(frameId);
 		};
 	}, []);
 
@@ -114,20 +173,7 @@ const MoviesContent = () => {
 								</Suspense>
 							</div>
 							<Button
-								sx={{
-									backgroundColor: "#02B4E4",
-									fontSize: "1.2rem",
-									lineHeight: "1rem",
-									fontWeight: 600,
-									height: "44px",
-									marginTop: "20px",
-									borderRadius: "20px",
-									color: "#fff",
-									"&:hover": {
-										backgroundColor: "#032541",
-										color: "#ADB6BF",
-									},
-								}}
+								sx={SEARCH_BUTTON_SX}
 								onClick={() => dispatch({ type: "APPLY_FILTERS" })}
 								disabled={!isDirty}
 							>
@@ -135,43 +181,27 @@ const MoviesContent = () => {
 							</Button>
 						</div>
 						<div>
-							<MoviesContainer
-								movies={data?.pages?.flatMap((page) => page.results) || []}
-								isLoading={isLoading || isFetchingNextPage}
-							/>
-							{(() => {
-								const results =
-									data?.pages?.flatMap((page) => page.results) ?? [];
-								const isSinglePage = data?.pages?.[0]?.total_pages === 1;
-								if (isSinglePage || results.length === 0 || !hasNextPage)
-									return null;
-								return (
+							<Suspense fallback={<TopLoader />}>
+								<MoviesContainer
+									movies={allResults}
+									isLoading={isLoading || isFetchingNextPage}
+								/>
+							</Suspense>
+							{showLoadMore && (
+								<>
+									<div ref={loadMoreSentinelRef} aria-hidden='true' />
 									<Button
-										sx={{
-											backgroundColor: "#02B4E4",
-											fontSize: "1.5rem",
-											fontWeight: 700,
-											lineHeight: "2.25rem",
-											height: "50px",
-											marginTop: "50px",
-											boxShadow: "none",
-											":hover": {
-												color: "rgba(10, 21, 38, 0.7)",
-												boxShadow: "none",
-											},
-										}}
+										sx={LOAD_MORE_BUTTON_SX}
 										onClick={() => fetchNextPage()}
 									>
 										Load More
 									</Button>
-								);
-							})()}
+								</>
+							)}
 						</div>
 					</div>
 				</div>
-				<div
-					className={`${styles.drawer} ${state.isDrawerOpen ? styles.show : ""}`}
-				>
+				<div className={`${styles.drawer} ${isDrawerOpen ? styles.show : ""}`}>
 					<ul className={styles.drawerList}>
 						<li
 							className={styles.drawerListItem}
@@ -266,21 +296,7 @@ const MoviesContent = () => {
 			</main>
 			{isDirty && isSearchButtonVisible && (
 				<Button
-					sx={{
-						position: "sticky",
-						bottom: 0,
-						backgroundColor: "#02B4E4",
-						fontSize: "1.2rem",
-						lineHeight: "1rem",
-						fontWeight: 600,
-						height: "50px",
-						borderRadius: "0px",
-						zIndex: 1500,
-						"&:hover": {
-							backgroundColor: "#032541",
-							color: "#ADB6BF",
-						},
-					}}
+					sx={STICKY_SEARCH_BUTTON_SX}
 					onClick={() => dispatch({ type: "APPLY_FILTERS" })}
 					disabled={!isDirty}
 				>
