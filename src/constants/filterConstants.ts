@@ -7,13 +7,6 @@ import {
 import type { SxProps, Theme } from "@mui/material";
 import type { SystemStyleObject } from "@mui/system";
 
-export const FILTER_CONSTANTS = {
-	SORT: "sort_by",
-	WHERE_TO_WATCH: "watch_region",
-	LANGUAGES: "Languages",
-	YEARS: "Years",
-};
-
 export const SORTING_PAYLOAD_KEYS = {
 	POPULARITY_DESC: "popularity.desc",
 	POPULARITY_ASC: "popularity.asc",
