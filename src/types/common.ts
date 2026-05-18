@@ -7,7 +7,11 @@ import type {
 import type { DiscoverFiltersType } from "./filters";
 import type { DatePickerProps } from "@mui/x-date-pickers/DatePicker";
 import type { ElementType, ReactNode } from "react";
-import type { AutocompleteProps, ChipTypeMap, TextFieldProps } from "@mui/material";
+import type {
+	AutocompleteProps,
+	ChipTypeMap,
+	TextFieldProps,
+} from "@mui/material";
 export type QueryParams = Record<
 	string,
 	string | number | boolean | null | undefined
@@ -67,14 +71,12 @@ export interface State {
 	appliedFilters: DiscoverFiltersType;
 	isDirty: boolean;
 	isFiltered: boolean;
-	isDrawerOpen: boolean;
 }
 
 export type Action =
 	| { type: "SET_FILTERS"; payload: DiscoverFiltersType }
 	| { type: "APPLY_FILTERS" }
 	| { type: "INIT_PAGE_FILTERS"; payload: DiscoverFiltersType }
-	| { type: "TOGGLE_DRAWER" };
 
 export interface CustomDatePickerProps extends DatePickerProps {
 	error?: boolean;
@@ -106,3 +108,6 @@ export type AppAutocompleteProps<
 	>;
 	className?: string;
 };
+
+export type FilterState = Omit<State, "isDrawerOpen">;
+export type FilterAction = Exclude<Action, { type: "TOGGLE_DRAWER" }>;

@@ -8,10 +8,10 @@ import Accordion from "../../../components/Accordion";
 import styles from "./AllFiltersComponent.module.scss";
 import { useGlobalState } from "../../../store/store";
 import Typography from "../../../components/Typography";
-import { lazy, useEffect, useState, type FunctionComponent } from "react";
+import { lazy, useState, type FunctionComponent } from "react";
 import type { CountriesType, OTTProviderType } from "../../../types/filters";
 import AccordionDetails from "../../../components/AccordionDetails";
-import { Box, MenuItem, Select } from "@mui/material";
+import { Box, MenuItem, Select, useMediaQuery } from "@mui/material";
 import Checkbox from "../../../components/Checkbox";
 import { useLocation } from "react-router";
 import { useData } from "../../../lib/useData";
@@ -30,9 +30,11 @@ const AllFiltersComponent: FunctionComponent<{
 
 	const [countriesCount, setCountriesCount] = useState<number>(0);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const [filterTabExpand, setFilterTabExpand] = useState<boolean>(
-		window.innerWidth < 1160,
-	);
+	const isWide = useMediaQuery("(min-width: 1160px)");
+	const [filterTabExpandOverride, setFilterTabExpandOverride] = useState<
+		boolean | null
+	>(null);
+	const filterTabExpand = filterTabExpandOverride ?? isWide;
 
 	const pageURL = useLocation().pathname;
 
@@ -47,20 +49,6 @@ const AllFiltersComponent: FunctionComponent<{
 	});
 
 	const ottProviders = data?.results || [];
-
-	useEffect(() => {
-		const handleResize = () => {
-			if (window.innerWidth < 1160) {
-				setFilterTabExpand(false);
-			} else {
-				setFilterTabExpand(true);
-			}
-		};
-
-		window.addEventListener("resize", handleResize);
-		handleResize();
-		return () => window.removeEventListener("resize", handleResize);
-	}, []);
 
 	return (
 		<div className={styles.filtersContainer}>
@@ -230,7 +218,7 @@ const AllFiltersComponent: FunctionComponent<{
 			<Accordion
 				title={"Filters"}
 				expanded={filterTabExpand}
-				onChange={() => setFilterTabExpand(!filterTabExpand)}
+				onChange={() => setFilterTabExpandOverride(!filterTabExpand)}
 			>
 				<FilterTab
 					countriesData={countriesData}
