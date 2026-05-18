@@ -8,15 +8,15 @@ import {
 import type {
 	CountriesType,
 	OTTProviderResponseType,
-} from "../../../types/filters";
-import { useGlobalState } from "../../../store/store";
-import { COUNTRY_OPTIONS } from "../../../constants/filterConstants";
-import Typography from "../../../components/Typography";
+} from "@/types/filters";
+import { useGlobalState } from "@/store/store";
+import { COUNTRY_OPTIONS } from "@/constants/filterConstants";
+import Typography from "@/components/Typography";
 import { Box } from "@mui/material";
 import styles from "./AllFiltersComponent.module.scss";
-import CustomTooltip from "../../../components/Tooltip";
-import SearchableSelect from "../../../components/SearchableSelect";
-import CountryOption from "../../../components/CountryOption";
+import CustomTooltip from "@/components/Tooltip";
+import SearchableSelect from "@/components/SearchableSelect";
+import CountryOption from "@/components/CountryOption";
 
 const WhereToWatchFilter: FunctionComponent<{
 	countriesData: Array<CountriesType>;

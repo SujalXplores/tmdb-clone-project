@@ -1,6 +1,6 @@
 import { Autocomplete as MuiAutocomplete } from "@mui/material";
 import TextField from "./TextField";
-import type { AppAutocompleteProps } from "../types/common";
+import type { AppAutocompleteProps } from "@/types/common";
 import Typography from "./Typography";
 
 const Autocomplete = <

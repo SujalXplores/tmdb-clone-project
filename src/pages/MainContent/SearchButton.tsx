@@ -1,6 +1,6 @@
 import type { FunctionComponent } from "react";
 import type { SxProps, Theme } from "@mui/material";
-import Button from "../../components/Button";
+import Button from "@/components/Button";
 
 interface SearchButtonProps {
 	onClick: () => void;

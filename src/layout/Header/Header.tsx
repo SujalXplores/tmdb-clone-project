@@ -2,8 +2,8 @@ import { useEffect, useRef, useState, type FunctionComponent } from "react";
 import styles from "./Header.module.scss";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
-import { useUIState } from "../../store/store";
-import { SCROLL_HIDE_THRESHOLD } from "../../constants/Header";
+import { useUIState } from "@/store/store";
+import { SCROLL_HIDE_THRESHOLD } from "@/constants/Header";
 
 const Header: FunctionComponent = () => {
 	const { isDrawerOpen, toggleDrawer } = useUIState();

@@ -1,9 +1,9 @@
 import type { Dispatch, FunctionComponent } from "react";
-import FilterSectionTitle from "../../../../components/FilterSectionTitle";
-import Slider from "../../../../components/Slider";
-import type { Action } from "../../../../types/common";
-import type { DiscoverFiltersType } from "../../../../types/filters";
-import FilterAccordionDetails from "../../../../components/FilterAccordionDetails";
+import FilterSectionTitle from "@/components/FilterSectionTitle";
+import Slider from "@/components/Slider";
+import type { Action } from "@/types/common";
+import type { DiscoverFiltersType } from "@/types/filters";
+import FilterAccordionDetails from "@/components/FilterAccordionDetails";
 
 const SliderFilter: FunctionComponent<{
 	dispatch: Dispatch<Action>;
