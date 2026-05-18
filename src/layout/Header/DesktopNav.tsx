@@ -1,19 +1,25 @@
-import { useRef, useState, type FunctionComponent, type MouseEvent } from "react";
+import {
+	useRef,
+	useState,
+	type FunctionComponent,
+	type MouseEvent,
+} from "react";
 import logo from "../../assets/tmdb-logo.svg";
 import styles from "./Header.module.scss";
 import NavPopover from "./NavPopover";
 import type { MenuKey } from "../../types/header";
-import { ASSET_URLS, NAV_MENUS, POPOVER_CLOSE_DELAY_MS } from "../../constants/Header";
+import {
+	ASSET_URLS,
+	NAV_MENUS,
+	POPOVER_CLOSE_DELAY_MS,
+} from "../../constants/Header";
 
 const DesktopNav: FunctionComponent = () => {
 	const [activeMenu, setActiveMenu] = useState<MenuKey | null>(null);
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-	const handlePopoverOpen = (
-		event: MouseEvent<HTMLElement>,
-		menu: MenuKey,
-	) => {
+	const handlePopoverOpen = (event: MouseEvent<HTMLElement>, menu: MenuKey) => {
 		if (timeoutRef.current) clearTimeout(timeoutRef.current);
 		setAnchorEl(event.currentTarget);
 		setActiveMenu(menu);
@@ -69,33 +75,49 @@ const DesktopNav: FunctionComponent = () => {
 			<div className={styles["right-section"]}>
 				<ul className={styles["nav-list"]}>
 					<li className={styles["list-items"]}>
-						<p className={styles["add-icon"]}>
+						<button
+							type='button'
+							className={styles["add-icon"]}
+							aria-label='Add new'
+						>
 							<img
 								src={ASSET_URLS.addIcon}
-								alt='Add icon'
+								alt=''
 								className={styles["add-icon-img"]}
 							/>
-						</p>
+						</button>
 					</li>
 					<li className={styles["list-items"]}>
-						<div className={styles["list-content"]}>
-							<p className={styles["box-visible"]}>EN</p>
-						</div>
+						<button
+							type='button'
+							className={styles["list-content"]}
+							aria-label='Change language'
+						>
+							<span className={styles["box-visible"]}>EN</span>
+						</button>
 					</li>
 					<li className={styles["list-items"]}>
-						<p className={styles["list-content"]}>Login</p>
+						<a href='/login' className={styles["list-content"]}>
+							Login
+						</a>
 					</li>
 					<li className={styles["list-items"]}>
-						<p className={styles["list-content"]}>Join TMDB</p>
+						<a href='/signup' className={styles["list-content"]}>
+							Join TMDB
+						</a>
 					</li>
 					<li className={styles["list-items"]}>
-						<p className={styles["search-icon"]}>
+						<button
+							type='button'
+							className={styles["search-icon"]}
+							aria-label='Search'
+						>
 							<img
 								src={ASSET_URLS.searchIcon}
-								alt='Search'
+								alt=''
 								className={styles["search-icon-img"]}
 							/>
-						</p>
+						</button>
 					</li>
 				</ul>
 			</div>
