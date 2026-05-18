@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { type ReactNode, type SyntheticEvent } from "react";
 import Typography from "./Typography";
-import styles from "./Components.module.scss";
+import styles from "../styles/Components.module.scss";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

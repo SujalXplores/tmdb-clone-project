@@ -9,11 +9,13 @@ import { createTheme } from "@mui/material/styles";
 import { FilterProvider } from "./store/store.tsx";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import ErrorBoundary from "./components/ErrorBoundary.tsx";
 
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
 			refetchOnWindowFocus: false,
+			retry: 1,
 		},
 	},
 });
@@ -27,15 +29,17 @@ const theme = createTheme({
 createRoot(document.getElementById("root") ?? document.body).render(
 	<StrictMode>
 		<BrowserRouter>
-			<FilterProvider>
-				<QueryClientProvider client={queryClient}>
-					<ThemeProvider theme={theme}>
-						<LocalizationProvider dateAdapter={AdapterDayjs}>
-							<App />
-						</LocalizationProvider>
-					</ThemeProvider>
-				</QueryClientProvider>
-			</FilterProvider>
+			<ErrorBoundary>
+				<FilterProvider>
+					<QueryClientProvider client={queryClient}>
+						<ThemeProvider theme={theme}>
+							<LocalizationProvider dateAdapter={AdapterDayjs}>
+								<App />
+							</LocalizationProvider>
+						</ThemeProvider>
+					</QueryClientProvider>
+				</FilterProvider>
+			</ErrorBoundary>
 		</BrowserRouter>
-	</StrictMode>
+	</StrictMode>,
 );

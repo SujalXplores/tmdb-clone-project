@@ -1,5 +1,5 @@
 import type { FunctionComponent } from "react";
-import styles from "./Components.module.scss";
+import styles from "../styles/Components.module.scss";
 
 const QuestionMarkTooltip: FunctionComponent = () => {
 	return (
