@@ -4,6 +4,9 @@ import {
 	type LanguagesOptionsType,
 } from "./../types/filters";
 
+import type { SxProps, Theme } from "@mui/material";
+import type { SystemStyleObject } from "@mui/system";
+
 export const FILTER_CONSTANTS = {
 	SORT: "sort_by",
 	WHERE_TO_WATCH: "watch_region",
@@ -99,11 +102,13 @@ export const FILTERS_INITIAL_STATE: DiscoverFiltersType = {
 	"with_runtime.lte": 400,
 };
 
-export const withMenuProps = (overrides: Record<string, any> = {}) => ({
-    sx: {
-        ...MENU_PAPER_PROPS.sx,
-        ...overrides,
-    },
+export const withMenuProps = (
+	overrides: SystemStyleObject<Theme> = {},
+): { sx: SxProps<Theme> } => ({
+	sx: {
+		...(MENU_PAPER_PROPS.sx as SystemStyleObject<Theme>),
+		...overrides,
+	},
 });
 
 export const MENU_PAPER_PROPS = {
@@ -164,6 +169,30 @@ export const SELECT_STYLES = {
 	"& .MuiSelect-icon": {
 		transform: "none !important",
 		pointerEvents: "none",
+	},
+};
+
+export const SEARCH_FIELD_STYLES: SxProps<Theme> = {
+	"& .MuiSelect-select": {
+		padding: "8.5px 14px",
+		fontSize: "14px",
+	},
+	"& .MuiOutlinedInput-root": {
+		borderRadius: "0.375rem",
+		fontSize: "14px",
+	},
+	"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+		borderColor: "#01b3e460 !important",
+	},
+	"& .MuiAutocomplete-input": {
+		cursor: "pointer",
+	},
+	"& .MuiOutlinedInput-root.MuiInputBase-sizeSmall": {
+		minHeight: "38px",
+	},
+	"& .MuiOutlinedInput-notchedOutline": {
+		border: "0.8px solid #01b3e460 !important",
+		borderRadius: "0.375rem",
 	},
 };
 

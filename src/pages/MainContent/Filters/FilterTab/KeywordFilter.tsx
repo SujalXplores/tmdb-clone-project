@@ -1,6 +1,4 @@
 import {
-	useEffect,
-	useRef,
 	useState,
 	type Dispatch,
 	type FunctionComponent,
@@ -8,22 +6,21 @@ import {
 import { useData } from "../../../../lib/useData";
 import type { Action } from "../../../../types/common";
 import type { DiscoverFiltersType } from "../../../../types/filters";
-import AccordionDetails from "../../../../components/AccordionDetails";
 import FilterSectionTitle from "../../../../components/FilterSectionTitle";
 import Autocomplete from "../../../../components/AutoComplete";
 import TextField from "../../../../components/TextField";
+import FilterAccordionDetails from "../../../../components/FilterAccordionDetails";
+import { useDebouncedSearch } from "../../../../hooks/useDebouncedSearch";
 
 const KeywordFilter: FunctionComponent<{
 	dispatch: Dispatch<Action>;
 	filters: DiscoverFiltersType;
 }> = ({ dispatch, filters }) => {
 	const [keyWordsSearchValue, setKeyWordsSearchValue] = useState<string>("");
-	const [keyWordsDebouncedSearchValue, setKeyWordsDebouncedSearchValue] =
-		useState<string>("");
-	const [selectedKeyWords, setSelectedKeyWords] = useState<
-		Array<{ id: number; name: string }>
+	const { debouncedValue: keyWordsDebouncedSearchValue, reset } =
+		useDebouncedSearch(keyWordsSearchValue, { threshold: 3 });
+	const [selectedKeyWords, setSelectedKeyWords] = useState<Array<{ id: number; name: string }>
 	>([]);
-	const hasCrossedThresholdForKeyWords = useRef<boolean>(false);
 
 	const { data: keywordsData } = useData<{
 		page: number;
@@ -37,33 +34,8 @@ const KeywordFilter: FunctionComponent<{
 		params: { language: "en-US", query: keyWordsDebouncedSearchValue },
 	});
 
-	useEffect(() => {
-		const timerId = setTimeout(() => {
-			const currentLength = keyWordsSearchValue.trim().length;
-			if (currentLength === 0) {
-				hasCrossedThresholdForKeyWords.current = false;
-				setKeyWordsDebouncedSearchValue("");
-				return;
-			}
-
-			if (currentLength >= 3) {
-				hasCrossedThresholdForKeyWords.current = true;
-			}
-			if (hasCrossedThresholdForKeyWords.current) {
-				setKeyWordsDebouncedSearchValue(keyWordsSearchValue.trim());
-			}
-		}, 500);
-
-		return () => clearTimeout(timerId);
-	}, [keyWordsSearchValue]);
-
 	return (
-		<AccordionDetails
-			sx={{
-				borderBottom: "1px solid #e5e7eb",
-				borderRadius: "8px 8px 0 0",
-			}}
-		>
+		<FilterAccordionDetails>
 			<FilterSectionTitle title='Keywords' />
 			<Autocomplete
 				multiple
@@ -95,8 +67,10 @@ const KeywordFilter: FunctionComponent<{
 				onInputChange={(_event, value, reason) => {
 					if (reason === "input" || reason === "clear") {
 						setKeyWordsSearchValue(value);
+						if (reason === "clear") reset();
 					} else if (reason === "reset") {
 						setKeyWordsSearchValue("");
+						reset();
 					}
 				}}
 				fullWidth
@@ -111,7 +85,7 @@ const KeywordFilter: FunctionComponent<{
 					},
 				}}
 			/>
-		</AccordionDetails>
+		</FilterAccordionDetails>
 	);
 };
 

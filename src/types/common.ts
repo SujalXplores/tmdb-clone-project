@@ -8,11 +8,15 @@ import type { DiscoverFiltersType } from "./filters";
 import type { DatePickerProps } from "@mui/x-date-pickers/DatePicker";
 import type { ElementType, ReactNode } from "react";
 import type { AutocompleteProps, ChipTypeMap, TextFieldProps } from "@mui/material";
+export type QueryParams = Record<
+	string,
+	string | number | boolean | null | undefined
+>;
 
 export interface UseAppQueryProps<TData> {
-	queryKey: any[];
+	queryKey: readonly unknown[];
 	url: string;
-	params?: Record<string, any>;
+	params?: QueryParams;
 	options?: Omit<
 		UseQueryOptions<TData, APIResponseError, TData>,
 		"queryKey" | "queryFn"
@@ -22,7 +26,7 @@ export interface UseAppQueryProps<TData> {
 export type UseAppInfiniteQueryProps<T> = {
 	queryKey: readonly unknown[];
 	url: string;
-	params?: Record<string, any>;
+	params?: QueryParams;
 	options?: Omit<
 		UseInfiniteQueryOptions<
 			ApiResponse<T>,
@@ -34,10 +38,10 @@ export type UseAppInfiniteQueryProps<T> = {
 	>;
 };
 
-export interface MutationVariables {
+export interface MutationVariables<TPayload = unknown> {
 	url: string;
-	payload: any;
-	params?: Record<string, any>;
+	payload: TPayload;
+	params?: QueryParams;
 	baseUrl?: string;
 }
 
