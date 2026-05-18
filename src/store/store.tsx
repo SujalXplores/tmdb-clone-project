@@ -79,6 +79,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
 	);
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useGlobalState = () => {
 	const context = use(FilterContext);
 	if (!context) {
@@ -87,6 +88,7 @@ export const useGlobalState = () => {
 	return context;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useUIState = () => {
 	const context = use(UIContext);
 	if (!context) {

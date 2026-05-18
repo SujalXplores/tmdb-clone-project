@@ -27,7 +27,7 @@ export interface MovieType {
 export interface UseInfiniteScrollOptions {
 	hasNextPage: boolean;
 	isFetchingNextPage: boolean;
-	fetchNextPage: () => void;
+	fetchNextPage: () => Promise<unknown>;
 	rootMargin?: string;
 }
 

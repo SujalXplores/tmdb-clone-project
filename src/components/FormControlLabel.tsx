@@ -7,6 +7,12 @@ import type { FunctionComponent } from "react";
 const FormControlLabel: FunctionComponent<FormControlLabelProps> = ({
 	...props
 }) => {
+	const sxProp = props.sx;
+	const height =
+		typeof sxProp === "object" && sxProp !== null && !Array.isArray(sxProp)
+			? (sxProp as { height?: string }).height
+			: undefined;
+
 	return (
 		<MuiFormControlLabel
 			{...props}
@@ -14,7 +20,7 @@ const FormControlLabel: FunctionComponent<FormControlLabelProps> = ({
 				...props.sx,
 				display: "flex",
 				alignItems: "center",
-				height: props?.sx?.height || "26px",
+				height: height || "26px",
 				margin: "0",
 				"& .MuiFormControlLabel-label": {
 					fontSize: "16px",

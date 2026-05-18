@@ -44,39 +44,36 @@ const request = async <T>({
 			},
 		);
 		if (!response.ok) {
-			const errorData = await response.json().catch(() => ({}));
+			const errorData = (await response.json().catch(() => ({}))) as Partial<{
+				status_code: number;
+				status_message: string;
+			}>;
 
-			throw {
-				status_code: errorData.status_code ?? response.status,
-				status_message: errorData.status_message || "Something went wrong",
-				success: false,
-			};
+			throw new Error(
+				`Error: ${errorData.status_message}, status code: ${errorData.status_code ?? response.status}`,
+			);
 		}
 
-		const data = await response.json();
+		const data = await response.json() as unknown;
 		return data as T;
 	} catch (error: unknown) {
 		const isObject = typeof error === "object" && error !== null;
 		const status_code =
 			isObject &&
 			"status_code" in error &&
-			typeof (error as { status_code: unknown }).status_code === "number"
+			typeof error.status_code === "number"
 				? (error as { status_code: number }).status_code
 				: 500;
 		const status_message =
 			isObject &&
 			"status_message" in error &&
-			typeof (error as { status_message: unknown }).status_message === "string"
+			typeof error.status_message === "string"
 				? (error as { status_message: string }).status_message
 				: error instanceof Error
 					? error.message
 					: "Network error";
 
-		throw {
-			status_code,
-			status_message,
-			success: false,
-		};
+		throw new Error(`Error: ${status_message}, status code: ${status_code}`);
 	}
 };
 

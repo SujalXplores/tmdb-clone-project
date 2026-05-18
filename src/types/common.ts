@@ -6,7 +6,7 @@ import type {
 } from "@tanstack/react-query";
 import type { DiscoverFiltersType } from "./filters";
 import type { DatePickerProps } from "@mui/x-date-pickers/DatePicker";
-import type { ComponentType, ElementType, ErrorInfo, ReactNode } from "react";
+import type { ElementType, ErrorInfo, ReactNode } from "react";
 import type {
 	AutocompleteProps,
 	ChipTypeMap,
@@ -122,8 +122,6 @@ export interface ErrorBoundaryState {
 	hasError: boolean;
 	error: Error | null;
 }
-
-export type ProviderEntry = [ComponentType<any>, object?];
 
 export interface RequiredEnv {
 	VITE_BEARER_TOKEN: string;
