@@ -1,17 +1,17 @@
 import { lazy, useEffect, type FunctionComponent } from "react";
-import Typography from "../../../../components/Typography";
+import Typography from "@/components/Typography";
 import { RadioGroup } from "@mui/material";
-import { useGlobalState } from "../../../../store/store";
+import { useGlobalState } from "@/store/store";
 import { useLocation } from "react-router";
-import { FILTERS_INITIAL_STATE } from "../../../../constants/filterConstants";
-import type { CountriesType } from "../../../../types/filters";
-import RadioButton from "../../../../components/RadioButton";
-import FormControlLabel from "../../../../components/FormControlLabel";
-import QuestionMarkTooltip from "../../../../components/QuestionMarkTooltip";
-import FilterSectionTitle from "../../../../components/FilterSectionTitle";
-import CustomTooltip from "../../../../components/Tooltip";
-import FilterAccordionDetails from "../../../../components/FilterAccordionDetails";
-import ToggleChipGroup from "../../../../components/ToggleChipGroup";
+import { FILTERS_INITIAL_STATE } from "@/constants/filterConstants";
+import type { CountriesType } from "@/types/filters";
+import RadioButton from "@/components/RadioButton";
+import FormControlLabel from "@/components/FormControlLabel";
+import QuestionMarkTooltip from "@/components/QuestionMarkTooltip";
+import FilterSectionTitle from "@/components/FilterSectionTitle";
+import CustomTooltip from "@/components/Tooltip";
+import FilterAccordionDetails from "@/components/FilterAccordionDetails";
+import ToggleChipGroup from "@/components/ToggleChipGroup";
 
 const LanguageFilter = lazy(() => import("./LanguageFilter"));
 const AvailabilitiesFilter = lazy(() => import("./AvailabilitiesFilter"));

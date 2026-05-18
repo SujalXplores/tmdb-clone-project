@@ -1,6 +1,6 @@
 import type { FunctionComponent } from "react";
 import styles from "./Header.module.scss";
-import { ASSET_URLS } from "../../constants/Header";
+import { ASSET_URLS } from "@/constants/urls";
 
 interface MobileNavProps {
 	onDrawerToggle: () => void;

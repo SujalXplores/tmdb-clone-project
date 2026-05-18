@@ -1,17 +1,17 @@
 import { useState, type Dispatch, type FunctionComponent } from "react";
-import Autocomplete from "../../../../components/AutoComplete";
-import FilterSectionTitle from "../../../../components/FilterSectionTitle";
-import TextField from "../../../../components/TextField";
-import type { Action } from "../../../../types/common";
+import Autocomplete from "@/components/AutoComplete";
+import FilterSectionTitle from "@/components/FilterSectionTitle";
+import TextField from "@/components/TextField";
+import type { Action } from "@/types/common";
 import type {
 	DiscoverFiltersType,
 	TvNetworksType,
-} from "../../../../types/filters";
-import { useData } from "../../../../lib/useData";
-import Typography from "../../../../components/Typography";
+} from "@/types/filters";
+import { useData } from "@/lib/useData";
+import Typography from "@/components/Typography";
 import { Box } from "@mui/material";
-import FilterAccordionDetails from "../../../../components/FilterAccordionDetails";
-import { useDebouncedSearch } from "../../../../hooks/useDebouncedSearch";
+import FilterAccordionDetails from "@/components/FilterAccordionDetails";
+import { useDebouncedSearch } from "@/hooks/useDebouncedSearch";
 
 const NetworkFilter: FunctionComponent<{
 	dispatch: Dispatch<Action>;

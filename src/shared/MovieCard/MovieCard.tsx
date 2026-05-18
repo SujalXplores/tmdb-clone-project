@@ -1,8 +1,9 @@
 import CardMedia from "@mui/material/CardMedia";
-import Typography from "../../components/Typography";
+import Typography from "@/components/Typography";
 import { type FunctionComponent } from "react";
 import dayjs from "dayjs";
 import styles from "./MovieCard.module.scss";
+import { TMDB_ASSETS } from "@/constants/urls";
 
 const MovieCard: FunctionComponent<{
 	imgUrl?: string;
@@ -17,7 +18,7 @@ const MovieCard: FunctionComponent<{
 					image={
 						imgUrl
 							? `https://media.themoviedb.org/t/p/w220_and_h330_face${imgUrl}`
-							: "https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg"
+							: `${TMDB_ASSETS}/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg`
 					}
 					alt={title ?? "Movie poster"}
 					component='img'

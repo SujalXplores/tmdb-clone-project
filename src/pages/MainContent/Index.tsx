@@ -1,19 +1,19 @@
 import { lazy, Suspense, useMemo, useRef } from "react";
 import { useLocation } from "react-router";
 import styles from "./MoviesContent.module.scss";
-import TopLoader from "../../shared/TopLoader";
-import { useGlobalState, useUIState } from "../../store/store";
+import TopLoader from "@/shared/TopLoader";
+import { useGlobalState, useUIState } from "@/store/store";
 import {
 	LOAD_MORE_BUTTON_SX,
 	PAGE_URL_TITLE_MAP,
 	SEARCH_BUTTON_SX,
 	STICKY_BUTTON_OFFSET,
 	STICKY_SEARCH_BUTTON_SX,
-} from "../../constants/constants";
-import Button from "../../components/Button";
-import { useMoviesData } from "../../hooks/useMoviesData";
-import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
-import { useStickyButton } from "../../hooks/useStickyButton";
+} from "@/constants/constants";
+import Button from "@/components/Button";
+import { useMoviesData } from "@/hooks/useMoviesData";
+import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
+import { useStickyButton } from "@/hooks/useStickyButton";
 import SearchButton from "./SearchButton";
 import MobileDrawer from "./MobileDrawer";
 

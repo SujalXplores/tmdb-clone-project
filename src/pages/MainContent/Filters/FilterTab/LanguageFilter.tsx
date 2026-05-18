@@ -1,18 +1,18 @@
 import { type Dispatch, type FunctionComponent } from "react";
-import type { Action } from "../../../../types/common";
-import type { DiscoverFiltersType } from "../../../../types/filters";
+import type { Action } from "@/types/common";
+import type { DiscoverFiltersType } from "@/types/filters";
 import { Box } from "@mui/material";
 import {
 	LANGUAGES_OPTIONS,
 	SELECT_STYLES,
 	withMenuProps,
-} from "../../../../constants/filterConstants";
-import Typography from "../../../../components/Typography";
-import FilterSectionTitle from "../../../../components/FilterSectionTitle";
-import CustomTooltip from "../../../../components/Tooltip";
-import QuestionMarkTooltip from "../../../../components/QuestionMarkTooltip";
-import FilterAccordionDetails from "../../../../components/FilterAccordionDetails";
-import SearchableSelect from "../../../../components/SearchableSelect";
+} from "@/constants/filterConstants";
+import Typography from "@/components/Typography";
+import FilterSectionTitle from "@/components/FilterSectionTitle";
+import CustomTooltip from "@/components/Tooltip";
+import QuestionMarkTooltip from "@/components/QuestionMarkTooltip";
+import FilterAccordionDetails from "@/components/FilterAccordionDetails";
+import SearchableSelect from "@/components/SearchableSelect";
 
 const renderLanguageOption = (
 	option: (typeof LANGUAGES_OPTIONS)[0],

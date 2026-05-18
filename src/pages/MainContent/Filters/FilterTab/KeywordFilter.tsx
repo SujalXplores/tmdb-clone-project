@@ -3,14 +3,14 @@ import {
 	type Dispatch,
 	type FunctionComponent,
 } from "react";
-import { useData } from "../../../../lib/useData";
-import type { Action } from "../../../../types/common";
-import type { DiscoverFiltersType } from "../../../../types/filters";
-import FilterSectionTitle from "../../../../components/FilterSectionTitle";
-import Autocomplete from "../../../../components/AutoComplete";
-import TextField from "../../../../components/TextField";
-import FilterAccordionDetails from "../../../../components/FilterAccordionDetails";
-import { useDebouncedSearch } from "../../../../hooks/useDebouncedSearch";
+import { useData } from "@/lib/useData";
+import type { Action } from "@/types/common";
+import type { DiscoverFiltersType } from "@/types/filters";
+import FilterSectionTitle from "@/components/FilterSectionTitle";
+import Autocomplete from "@/components/AutoComplete";
+import TextField from "@/components/TextField";
+import FilterAccordionDetails from "@/components/FilterAccordionDetails";
+import { useDebouncedSearch } from "@/hooks/useDebouncedSearch";
 
 const KeywordFilter: FunctionComponent<{
 	dispatch: Dispatch<Action>;

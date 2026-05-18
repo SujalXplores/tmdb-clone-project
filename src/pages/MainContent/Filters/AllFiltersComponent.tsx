@@ -3,21 +3,21 @@ import {
 	SELECT_STYLES,
 	SORT_BY_OPTIONS,
 	withMenuProps,
-} from "../../../constants/filterConstants";
-import Accordion from "../../../components/Accordion";
+} from "@/constants/filterConstants";
+import Accordion from "@/components/Accordion";
 import styles from "./AllFiltersComponent.module.scss";
-import { useGlobalState } from "../../../store/store";
-import Typography from "../../../components/Typography";
+import { useGlobalState } from "@/store/store";
+import Typography from "@/components/Typography";
 import { lazy, useState, type FunctionComponent } from "react";
-import type { CountriesType, OTTProviderType } from "../../../types/filters";
-import AccordionDetails from "../../../components/AccordionDetails";
+import type { CountriesType, OTTProviderType } from "@/types/filters";
+import AccordionDetails from "@/components/AccordionDetails";
 import { Box, MenuItem, Select, useMediaQuery } from "@mui/material";
-import Checkbox from "../../../components/Checkbox";
+import Checkbox from "@/components/Checkbox";
 import { useLocation } from "react-router";
-import { useData } from "../../../lib/useData";
-import QuestionMarkTooltip from "../../../components/QuestionMarkTooltip";
-import CustomTooltip from "../../../components/Tooltip";
-import FilterAccordionDetails from "../../../components/FilterAccordionDetails";
+import { useData } from "@/lib/useData";
+import QuestionMarkTooltip from "@/components/QuestionMarkTooltip";
+import CustomTooltip from "@/components/Tooltip";
+import FilterAccordionDetails from "@/components/FilterAccordionDetails";
 
 const WhereToWatchFilter = lazy(() => import("./WhereToWatchTab"));
 const FilterTab = lazy(() => import("./FilterTab/FiltersTab"));

@@ -2,7 +2,7 @@ import type { FunctionComponent } from "react";
 import Popover from "@mui/material/Popover";
 import { useNavigate } from "react-router";
 import styles from "./Header.module.scss";
-import type { NavPopoverProps } from "../../types/header";
+import type { NavPopoverProps } from "@/types/header";
 
 const NavPopover: FunctionComponent<NavPopoverProps> = ({
 	anchorEl,

@@ -1,7 +1,7 @@
 import { useEffect, useState, type FunctionComponent } from "react";
 import styles from "./MoviesContent.module.scss";
-import { NAV_MENUS } from "../../constants/Header";
-import { DRAWER_SUB_LINKS } from "../../constants/constants";
+import { NAV_MENUS } from "@/constants/Header";
+import { DRAWER_SUB_LINKS } from "@/constants/constants";
 
 interface MobileDrawerProps {
 	isOpen: boolean;

@@ -1,10 +1,10 @@
 import type { Dispatch, FunctionComponent } from "react";
-import FilterSectionTitle from "../../../../components/FilterSectionTitle";
-import ToggleChipGroup from "../../../../components/ToggleChipGroup";
-import type { DiscoverFiltersType, GenreType } from "../../../../types/filters";
-import type { Action } from "../../../../types/common";
-import { useData } from "../../../../lib/useData";
-import FilterAccordionDetails from "../../../../components/FilterAccordionDetails";
+import FilterSectionTitle from "@/components/FilterSectionTitle";
+import ToggleChipGroup from "@/components/ToggleChipGroup";
+import type { DiscoverFiltersType, GenreType } from "@/types/filters";
+import type { Action } from "@/types/common";
+import { useData } from "@/lib/useData";
+import FilterAccordionDetails from "@/components/FilterAccordionDetails";
 
 const GenreFilter: FunctionComponent<{
 	dispatch: Dispatch<Action>;

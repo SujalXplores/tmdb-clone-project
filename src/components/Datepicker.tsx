@@ -1,5 +1,5 @@
 import { DatePicker as MuiDatePicker } from "@mui/x-date-pickers/DatePicker";
-import type { CustomDatePickerProps } from "../types/common";
+import type { CustomDatePickerProps } from "@/types/common";
 
 const DatePicker = ({
 	error,

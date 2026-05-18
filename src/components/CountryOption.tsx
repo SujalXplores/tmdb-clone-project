@@ -1,7 +1,7 @@
 import { useState, type FunctionComponent } from "react";
 import { Box } from "@mui/material";
 import Typography from "./Typography";
-import type { CountryOptionProps } from "../types/filters";
+import type { CountryOptionProps } from "@/types/filters";
 
 const CountryFlag: FunctionComponent<{
 	flagUrl: string;

@@ -1,5 +1,6 @@
-import Typography from "../../components/Typography";
+import Typography from "@/components/Typography";
 import styles from "./Footer.module.scss";
+import { TMDB_ASSETS } from "@/constants/urls";
 
 const FOOTER_LINK_GROUPS: Array<{
 	title: string;
@@ -45,7 +46,7 @@ const Footer = () => {
 						<img
 							alt='The Movie Database (TMDB)'
 							className={styles.tmdbLogo}
-							src='https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg'
+							src={`${TMDB_ASSETS}/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg`}
 						/>
 						<Typography className={styles.joinTheCommunityText}>
 							JOIN THE COMMUNITY

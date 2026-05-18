@@ -1,4 +1,4 @@
-@use "../../../styles/variables.scss" as *;
+@use "@/styles/variables.scss" as *;
 
 .movies {
 	width: calc(100vw - ($nav-padding-x * 2) - $filter-sidebar-width - 8px);

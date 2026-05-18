@@ -1,10 +1,10 @@
-import Checkbox from "../../../../components/Checkbox";
-import FormControlLabel from "../../../../components/FormControlLabel";
+import Checkbox from "@/components/Checkbox";
+import FormControlLabel from "@/components/FormControlLabel";
 import {
 	Box,
 } from "@mui/material";
-import Typography from "../../../../components/Typography";
-import DatePicker from "../../../../components/Datepicker";
+import Typography from "@/components/Typography";
+import DatePicker from "@/components/Datepicker";
 import {
 	type Dispatch,
 	type FunctionComponent,
@@ -12,17 +12,17 @@ import {
 import type {
 	CountriesType,
 	DiscoverFiltersType,
-} from "../../../../types/filters";
-import type { Action } from "../../../../types/common";
+} from "@/types/filters";
+import type { Action } from "@/types/common";
 import dayjs, { Dayjs } from "dayjs";
 import {
 	COUNTRY_OPTIONS,
 	SELECT_STYLES,
-} from "../../../../constants/filterConstants";
-import FilterSectionTitle from "../../../../components/FilterSectionTitle";
-import FilterAccordionDetails from "../../../../components/FilterAccordionDetails";
-import SearchableSelect from "../../../../components/SearchableSelect";
-import CountryOption from "../../../../components/CountryOption";
+} from "@/constants/filterConstants";
+import FilterSectionTitle from "@/components/FilterSectionTitle";
+import FilterAccordionDetails from "@/components/FilterAccordionDetails";
+import SearchableSelect from "@/components/SearchableSelect";
+import CountryOption from "@/components/CountryOption";
 
 const ReleaseDateFilter: FunctionComponent<{
 	countriesData: Array<CountriesType>;

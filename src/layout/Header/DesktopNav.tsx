@@ -4,15 +4,15 @@ import {
 	type FunctionComponent,
 	type MouseEvent,
 } from "react";
-import logo from "../../assets/tmdb-logo.svg";
+import logo from "@/assets/tmdb-logo.svg";
 import styles from "./Header.module.scss";
 import NavPopover from "./NavPopover";
-import type { MenuKey } from "../../types/header";
+import type { MenuKey } from "@/types/header";
 import {
-	ASSET_URLS,
 	NAV_MENUS,
 	POPOVER_CLOSE_DELAY_MS,
-} from "../../constants/Header";
+} from "@/constants/Header";
+import { ASSET_URLS } from "@/constants/urls";
 
 const DesktopNav: FunctionComponent = () => {
 	const [activeMenu, setActiveMenu] = useState<MenuKey | null>(null);

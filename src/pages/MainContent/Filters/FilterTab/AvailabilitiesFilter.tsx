@@ -1,11 +1,11 @@
 import { type ChangeEvent, type Dispatch, type FunctionComponent } from "react";
-import FormControlLabel from "../../../../components/FormControlLabel";
-import type { DiscoverFiltersType } from "../../../../types/filters";
-import type { Action } from "../../../../types/common";
-import Checkbox from "../../../../components/Checkbox";
+import FormControlLabel from "@/components/FormControlLabel";
+import type { DiscoverFiltersType } from "@/types/filters";
+import type { Action } from "@/types/common";
+import Checkbox from "@/components/Checkbox";
 import styles from "../AllFiltersComponent.module.scss";
-import FilterSectionTitle from "../../../../components/FilterSectionTitle";
-import FilterAccordionDetails from "../../../../components/FilterAccordionDetails";
+import FilterSectionTitle from "@/components/FilterSectionTitle";
+import FilterAccordionDetails from "@/components/FilterAccordionDetails";
 
 const AvailabilitiesFilter: FunctionComponent<{
 	dispatch: Dispatch<Action>;
