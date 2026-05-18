@@ -1,3 +1,5 @@
+import type { RefObject } from "react";
+
 export interface MovieResponseType {
 	page: number;
 	results: Array<MovieType>;
@@ -20,4 +22,18 @@ export interface MovieType {
 	video: boolean;
 	vote_average: number;
 	vote_count: number;
+}
+
+export interface UseInfiniteScrollOptions {
+	hasNextPage: boolean;
+	isFetchingNextPage: boolean;
+	fetchNextPage: () => void;
+	rootMargin?: string;
+}
+
+export interface UseInfiniteScrollReturn {
+	sentinelRef: RefObject<HTMLDivElement | null>;
+	hasInitiated: boolean;
+	initiate: () => void;
+	reset: () => void;
 }
