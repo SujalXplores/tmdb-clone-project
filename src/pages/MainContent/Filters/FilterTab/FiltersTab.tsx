@@ -1,6 +1,6 @@
 import { lazy, useEffect, type FunctionComponent } from "react";
 import Typography from "../../../../components/Typography";
-import { Box, Chip, RadioGroup } from "@mui/material";
+import { RadioGroup } from "@mui/material";
 import { useGlobalState } from "../../../../store/store";
 import { useLocation } from "react-router";
 import { FILTERS_INITIAL_STATE } from "../../../../constants/filterConstants";
@@ -30,6 +30,9 @@ const FilterTab: FunctionComponent<{
 
 	const pageURL = useLocation().pathname;
 
+	const isReleaseTypeRoute =
+		pageURL === "/movie/upcoming" || pageURL === "/movie/now-playing";
+
 	useEffect(() => {
 		const isTvDefault =
 			pageURL === "/tv" ||
@@ -46,16 +49,6 @@ const FilterTab: FunctionComponent<{
 				with_release_type: isReleaseTypeRoute ? "3" : null,
 			},
 		});
-
-		if (pageURL === "/movie/upcoming" || pageURL === "/movie/now-playing") {
-			dispatch({
-				type: "INIT_PAGE_FILTERS",
-				payload: {
-					...filters,
-					with_release_type: "3",
-				},
-			});
-		}
 	}, [pageURL, dispatch]);
 
 	return (
