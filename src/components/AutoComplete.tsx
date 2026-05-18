@@ -126,7 +126,7 @@ const Autocomplete = <
 							backgroundColor: "transparent",
 						},
 					},
-				}
+				},
 			}}
 			sx={{
 				...sx,
@@ -209,9 +209,11 @@ const Autocomplete = <
 					error={error}
 					helperText={helperText}
 					size='small'
-					inputProps={{
-						...params.inputProps,
-						readOnly: isSelectOnly,
+					slotProps={{
+						htmlInput: {
+							...params.inputProps,
+							readOnly: isSelectOnly,
+						},
 					}}
 					sx={{
 						"& .MuiOutlinedInput-root": {

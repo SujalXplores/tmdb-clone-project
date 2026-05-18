@@ -1,7 +1,6 @@
-// FilterContext.tsx
 import {
 	createContext,
-	useContext,
+	use,
 	useReducer,
 	type Dispatch,
 	type ReactNode,
@@ -49,15 +48,11 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
 		isDrawerOpen: false,
 	});
 
-	return (
-		<FilterContext.Provider value={{ state, dispatch }}>
-			{children}
-		</FilterContext.Provider>
-	);
+	return <FilterContext value={{ state, dispatch }}>{children}</FilterContext>;
 };
 
 export const useGlobalState = () => {
-	const context = useContext(FilterContext);
+	const context = use(FilterContext);
 	if (!context) {
 		throw new Error("useGlobalState must be used within FilterProvider");
 	}

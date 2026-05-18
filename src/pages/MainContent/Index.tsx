@@ -1,4 +1,4 @@
-import { lazy, useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import styles from "./MoviesContent.module.scss";
 import type { MovieType } from "../../types/movies";
 import {
@@ -26,17 +26,17 @@ const MoviesContent = () => {
 
 	const filterContainerRef = useRef<HTMLDivElement>(null);
 
-	const pageUrl = useLocation().pathname;
+	const pageURL = useLocation().pathname;
 
 	const endpoint = isFiltered
-		? `/discover/${API_URL_FOR_PAGE[pageUrl].includes("movie") ? "movie" : "tv"}`
-		: `/${API_URL_FOR_PAGE[pageUrl]}`;
+		? `/discover/${API_URL_FOR_PAGE[pageURL].includes("movie") ? "movie" : "tv"}`
+		: `/${API_URL_FOR_PAGE[pageURL]}`;
 
 	const params = { ...appliedFilters };
 
 	const { data, fetchNextPage, isLoading, isFetchingNextPage, hasNextPage } =
 		useInfiniteData<MovieType>({
-			queryKey: ["movies&tv", endpoint, appliedFilters, pageUrl],
+			queryKey: ["movies&tv", endpoint, appliedFilters, pageURL],
 			url: endpoint,
 			params: isFiltered
 				? { ...params, language: "en-US" }
@@ -55,8 +55,8 @@ const MoviesContent = () => {
 	});
 
 	const headerTitle = useMemo(() => {
-		return PAGE_URL_TITLE_MAP[pageUrl] || "Movies";
-	}, [pageUrl]);
+		return PAGE_URL_TITLE_MAP[pageURL] || "Movies";
+	}, [pageURL]);
 
 	const toggleMenu = (menuName: string) => {
 		setOpenMenus((prev) =>
@@ -109,7 +109,9 @@ const MoviesContent = () => {
 					<div className={styles.mainContent}>
 						<div>
 							<div className={styles.filtersContainer} ref={filterContainerRef}>
-								<AllFiltersComponent countriesData={countriesData || []} />
+								<Suspense fallback={<TopLoader />}>
+									<AllFiltersComponent countriesData={countriesData || []} />
+								</Suspense>
 							</div>
 							<Button
 								sx={{
