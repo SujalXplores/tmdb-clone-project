@@ -16,13 +16,13 @@ import type {
 import type { Action } from "@/types/common";
 import dayjs, { Dayjs } from "dayjs";
 import {
-	COUNTRY_OPTIONS,
 	SELECT_STYLES,
 } from "@/constants/filterConstants";
 import FilterSectionTitle from "@/components/FilterSectionTitle";
 import FilterAccordionDetails from "@/components/FilterAccordionDetails";
 import SearchableSelect from "@/components/SearchableSelect";
 import CountryOption from "@/components/CountryOption";
+import { COUNTRY_OPTIONS } from "@/data/countries";
 
 const ReleaseDateFilter: FunctionComponent<{
 	countriesData: Array<CountriesType>;

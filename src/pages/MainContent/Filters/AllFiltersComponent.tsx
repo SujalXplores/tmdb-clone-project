@@ -1,5 +1,4 @@
 import {
-	COUNTRY_OPTIONS,
 	SELECT_STYLES,
 	SORT_BY_OPTIONS,
 	withMenuProps,
@@ -18,6 +17,7 @@ import { useData } from "@/lib/useData";
 import QuestionMarkTooltip from "@/components/QuestionMarkTooltip";
 import CustomTooltip from "@/components/Tooltip";
 import FilterAccordionDetails from "@/components/FilterAccordionDetails";
+import { COUNTRY_OPTIONS } from "@/data/countries";
 
 const WhereToWatchFilter = lazy(() => import("./WhereToWatchTab"));
 const FilterTab = lazy(() => import("./FilterTab/FiltersTab"));
