@@ -1,6 +1,8 @@
+import { env } from "../lib/env";
+
 const getHeaders = () => ({
 	"Content-Type": "application/json",
-	Authorization: `Bearer ${import.meta.env.VITE_BEARER_TOKEN}`,
+	Authorization: `Bearer ${env.VITE_BEARER_TOKEN}`,
 	"Cache-Control": "no-cache",
 });
 
@@ -33,7 +35,7 @@ const request = async <T>({
 			: "";
 
 		const response = await fetch(
-			`${baseUrl || import.meta.env.VITE_BASE_API_URL}${url}${queryString}`,
+			`${baseUrl || env.VITE_BASE_API_URL}${url}${queryString}`,
 			{
 				method,
 				headers: getHeaders(),

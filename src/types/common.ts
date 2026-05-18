@@ -6,7 +6,7 @@ import type {
 } from "@tanstack/react-query";
 import type { DiscoverFiltersType } from "./filters";
 import type { DatePickerProps } from "@mui/x-date-pickers/DatePicker";
-import type { ElementType, ReactNode } from "react";
+import type { ComponentType, ElementType, ErrorInfo, ReactNode } from "react";
 import type {
 	AutocompleteProps,
 	ChipTypeMap,
@@ -76,7 +76,7 @@ export interface State {
 export type Action =
 	| { type: "SET_FILTERS"; payload: DiscoverFiltersType }
 	| { type: "APPLY_FILTERS" }
-	| { type: "INIT_PAGE_FILTERS"; payload: DiscoverFiltersType }
+	| { type: "INIT_PAGE_FILTERS"; payload: DiscoverFiltersType };
 
 export interface CustomDatePickerProps extends DatePickerProps {
 	error?: boolean;
@@ -111,3 +111,21 @@ export type AppAutocompleteProps<
 
 export type FilterState = Omit<State, "isDrawerOpen">;
 export type FilterAction = Exclude<Action, { type: "TOGGLE_DRAWER" }>;
+
+export interface ErrorBoundaryProps {
+	children: ReactNode;
+	fallback?: ReactNode;
+	onError?: (error: Error, errorInfo: ErrorInfo) => void;
+}
+
+export interface ErrorBoundaryState {
+	hasError: boolean;
+	error: Error | null;
+}
+
+export type ProviderEntry = [ComponentType<any>, object?];
+
+export interface RequiredEnv {
+	VITE_BEARER_TOKEN: string;
+	VITE_BASE_API_URL: string;
+}

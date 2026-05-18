@@ -15,7 +15,7 @@ const MoviesContainer: FunctionComponent<{
 			<div className={styles.movies}>
 				{isLoading &&
 					Array.from(new Array(10).keys()).map((index) => {
-						return (
+						return (	
 							<div key={index}>
 								<Skeleton variant='rounded' height={280} />
 								<Skeleton variant='text' height={40} />

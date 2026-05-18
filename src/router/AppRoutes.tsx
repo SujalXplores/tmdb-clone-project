@@ -1,6 +1,8 @@
 import { Navigate, Route, Routes } from "react-router";
-import MoviesContent from "../pages/MainContent/Index";
 import Layout from "../layout/Layout";
+import { lazy } from "react";
+
+const MoviesContent = lazy(() => import("../pages/MainContent/Index"));
 
 const AppRoutes = () => {
 	return (

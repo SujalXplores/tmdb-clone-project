@@ -5,7 +5,7 @@ import {
 	FormHelperText,
 } from "@mui/material";
 import FormControlLabel from "./FormControlLabel";
-import styles from "./Components.module.scss";
+import styles from "../styles/Components.module.scss";
 
 type AppCheckboxProps = CheckboxProps & {
 	label?: FormControlLabelProps["label"];
