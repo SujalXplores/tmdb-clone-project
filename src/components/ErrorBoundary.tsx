@@ -13,7 +13,6 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 	}
 
 	componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-		// Log to console; in production, hook this up to your error tracker (Sentry, etc.)
 		console.error("ErrorBoundary caught an error:", error, errorInfo);
 		this.props.onError?.(error, errorInfo);
 	}
@@ -31,7 +30,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 					<div className={styles.errorContent}>
 						<h2 className={styles.errorTitle}>Something went wrong</h2>
 						<p className={styles.errorMessage}>
-							We're sorry — something went wrong on our end. Try again, or
+							We&apos;re sorry — something went wrong on our end. Try again, or
 							refresh the page if the problem persists.
 						</p>
 						{import.meta.env.DEV && this.state.error && (

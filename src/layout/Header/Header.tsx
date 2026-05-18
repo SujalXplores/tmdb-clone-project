@@ -15,7 +15,7 @@ const Header: FunctionComponent = () => {
 
 		let frameId: number | null = null;
 
-		const handleScroll = () => {Header
+		const handleScroll = () => {
 			if (frameId !== null) return;
 			frameId = requestAnimationFrame(() => {
 				const currentPosition = window.scrollY;

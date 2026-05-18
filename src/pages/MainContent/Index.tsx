@@ -91,7 +91,7 @@ const MoviesContent = () => {
 										sx={LOAD_MORE_BUTTON_SX}
 										onClick={() => {
 											initiate();
-											fetchNextPage();
+											void fetchNextPage();
 										}}
 									>
 										Load More

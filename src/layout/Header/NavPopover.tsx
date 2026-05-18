@@ -44,7 +44,7 @@ const NavPopover: FunctionComponent<NavPopoverProps> = ({
 						key={item.name}
 						className={styles["popover-list-item"]}
 						onClick={() => {
-							if (item.url) navigate(item.url);
+							if (item.url) void navigate(item.url);
 						}}
 					>
 						<p className={styles["popover-list-link"]}>{item.name}</p>

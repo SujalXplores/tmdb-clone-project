@@ -23,8 +23,8 @@ const validateEnv = (): RequiredEnv => {
 	}
 
 	return {
-		VITE_BEARER_TOKEN: env.VITE_BEARER_TOKEN,
-		VITE_BASE_API_URL: env.VITE_BASE_API_URL,
+		VITE_BEARER_TOKEN: env.VITE_BEARER_TOKEN as string,
+		VITE_BASE_API_URL: env.VITE_BASE_API_URL as string,
 	};
 };
 
