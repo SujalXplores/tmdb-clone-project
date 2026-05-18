@@ -27,24 +27,28 @@ const MobileNav: FunctionComponent<MobileNavProps> = ({ onDrawerToggle }) => {
 				<img src={ASSET_URLS.logoSquare} alt='logo' width='55' height='40' />
 			</div>
 			<div className={styles["icon-container"]}>
-				<div className={styles["list-items"]}>
-					<p className={styles["user-icon"]}>
-						<img
-							src={ASSET_URLS.userIcon}
-							alt='user'
-							className={styles["user-icon-img"]}
-						/>
-					</p>
-				</div>
-				<div className={styles["list-items"]}>
-					<p className={styles["search-icon"]}>
-						<img
-							src={ASSET_URLS.searchIcon}
-							alt='Search'
-							className={styles["search-icon-img"]}
-						/>
-					</p>
-				</div>
+				<button
+					type='button'
+					className={styles["user-icon"]}
+					aria-label='User profile'
+				>
+					<img
+						src={ASSET_URLS.userIcon}
+						alt=''
+						className={styles["user-icon-img"]}
+					/>
+				</button>
+				<button
+					type='button'
+					className={styles["search-icon"]}
+					aria-label='Search'
+				>
+					<img
+						src={ASSET_URLS.searchIcon}
+						alt=''
+						className={styles["search-icon-img"]}
+					/>
+				</button>
 			</div>
 		</div>
 	);

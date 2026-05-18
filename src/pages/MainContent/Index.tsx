@@ -64,7 +64,7 @@ const STICKY_SEARCH_BUTTON_SX: SxProps<Theme> = {
 
 const MoviesContent = () => {
 	const { state, dispatch } = useGlobalState();
-	const { isDrawerOpen } = useUIState();
+	const { isDrawerOpen, toggleDrawer } = useUIState();
 	const { appliedFilters, isDirty, isFiltered } = state;
 
 	const [isSearchButtonVisible, setIsSearchButtonVisible] =
@@ -166,6 +166,17 @@ const MoviesContent = () => {
 		setHasInitiatedLoadMore(false);
 	}, [appliedFilters, pageURL]);
 
+	useEffect(() => {
+		if (!isDrawerOpen) return;
+
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === "Escape") toggleDrawer();
+		};
+
+		document.addEventListener("keydown", handleKeyDown);
+		return () => document.removeEventListener("keydown", handleKeyDown);
+	}, [isDrawerOpen, toggleDrawer]);
+
 	return (
 		<>
 			{(isLoading || isFetchingNextPage) && <TopLoader />}
@@ -215,26 +226,39 @@ const MoviesContent = () => {
 						</div>
 					</div>
 				</div>
-				<div className={`${styles.drawer} ${isDrawerOpen ? styles.show : ""}`}>
+				<div
+					className={`${styles.drawer} ${isDrawerOpen ? styles.show : ""}`}
+					role='dialog'
+					aria-modal='true'
+					aria-label='Mobile navigation menu'
+					aria-hidden={!isDrawerOpen}
+					tabIndex={-1}
+				>
 					<ul className={styles.drawerList}>
 						<li
 							className={styles.drawerListItem}
 							onClick={() => toggleMenu("movies")}
 						>
-							<p className={styles.drawerListItemTitle}>Movies</p>
+							<button
+								type='button'
+								className={styles.drawerListItemTitle}
+								aria-expanded={openMenus.includes("movies")}
+							>
+								Movies
+							</button>
 							{openMenus.includes("movies") && (
 								<ul className={styles.listMenu}>
 									<li className={styles.listMenuItem}>
-										<p className={styles.listMenuItemTitle}>Popular</p>
+										<a className={styles.listMenuItemTitle}>Popular</a>
 									</li>
 									<li className={styles.listMenuItem}>
-										<p className={styles.listMenuItemTitle}>Top Rated</p>
+										<a className={styles.listMenuItemTitle}>Top Rated</a>
 									</li>
 									<li className={styles.listMenuItem}>
-										<p className={styles.listMenuItemTitle}>Upcoming</p>
+										<a className={styles.listMenuItemTitle}>Upcoming</a>
 									</li>
 									<li className={styles.listMenuItem}>
-										<p className={styles.listMenuItemTitle}>Now Playing</p>
+										<a className={styles.listMenuItemTitle}>Now Playing</a>
 									</li>
 								</ul>
 							)}
@@ -243,20 +267,26 @@ const MoviesContent = () => {
 							className={styles.drawerListItem}
 							onClick={() => toggleMenu("tvShows")}
 						>
-							<p className={styles.drawerListItemTitle}>TV Shows</p>
+							<button
+								type='button'
+								className={styles.drawerListItemTitle}
+								aria-expanded={openMenus.includes("tvShows")}
+							>
+								TV Shows
+							</button>
 							{openMenus.includes("tvShows") && (
 								<ul className={styles.listMenu}>
 									<li className={styles.listMenuItem}>
-										<p className={styles.listMenuItemTitle}>Popular</p>
+										<a className={styles.listMenuItemTitle}>Popular</a>
 									</li>
 									<li className={styles.listMenuItem}>
-										<p className={styles.listMenuItemTitle}>Top Rated</p>
+										<a className={styles.listMenuItemTitle}>Top Rated</a>
 									</li>
 									<li className={styles.listMenuItem}>
-										<p className={styles.listMenuItemTitle}>On TV</p>
+										<a className={styles.listMenuItemTitle}>On TV</a>
 									</li>
 									<li className={styles.listMenuItem}>
-										<p className={styles.listMenuItemTitle}>Airing Today</p>
+										<a className={styles.listMenuItemTitle}>Airing Today</a>
 									</li>
 								</ul>
 							)}
@@ -265,11 +295,17 @@ const MoviesContent = () => {
 							className={styles.drawerListItem}
 							onClick={() => toggleMenu("people")}
 						>
-							<p className={styles.drawerListItemTitle}>People</p>
+							<button
+								type='button'
+								className={styles.drawerListItemTitle}
+								aria-expanded={openMenus.includes("people")}
+							>
+								People
+							</button>
 							{openMenus.includes("people") && (
 								<ul className={styles.listMenu}>
 									<li className={styles.listMenuItem}>
-										<p className={styles.listMenuItemTitle}>Popular</p>
+										<a className={styles.listMenuItemTitle}>Popular</a>
 									</li>
 								</ul>
 							)}
@@ -278,33 +314,46 @@ const MoviesContent = () => {
 							className={styles.drawerListItem}
 							onClick={() => toggleMenu("awards")}
 						>
-							<p className={styles.drawerListItemTitle}>Awards</p>
+							<button
+								type='button'
+								className={styles.drawerListItemTitle}
+								aria-expanded={openMenus.includes("awards")}
+							>
+								Awards
+							</button>
 							{openMenus.includes("awards") && (
 								<ul className={styles.listMenu}>
 									<li className={styles.listMenuItem}>
-										<p className={styles.listMenuItemTitle}>Popular</p>
+										<a className={styles.listMenuItemTitle}>Popular</a>
 									</li>
 									<li
 										className={`${styles.listMenuItem} ${styles.upcomingMenuItem}`}
 									>
-										<p className={styles.listMenuItemTitle}>Upcoming</p>
+										<a className={styles.listMenuItemTitle}>Upcoming</a>
 									</li>
 								</ul>
 							)}
 						</li>
 					</ul>
 					<ul className={styles.drawerSubList}>
-						<li className={styles.drawerListSubItem}>Contribution Bible</li>
-						<li className={styles.drawerListSubItem}>Discussions</li>
-						<li className={styles.drawerListSubItem}>Leaderboard</li>
-						<li className={styles.drawerListSubItem}>API</li>
-						<li className={styles.drawerListSubItem}>Support</li>
-						<li className={styles.drawerListSubItem}>About</li>
-						<li
-							className={`${styles.drawerListSubItem} ${styles.loginSubItem}`}
-						>
-							Login
-						</li>
+						{[
+							{ label: "Contribution Bible", href: "#" },
+							{ label: "Discussions", href: "#" },
+							{ label: "Leaderboard", href: "#" },
+							{ label: "API", href: "#" },
+							{ label: "Support", href: "#" },
+							{ label: "About", href: "#" },
+							{ label: "Login", href: "/login", isLogin: true },
+						].map((item) => (
+							<li
+								key={item.label}
+								className={`${styles.drawerListSubItem} ${
+									item.isLogin ? styles.loginSubItem : ""
+								}`}
+							>
+								<a href={item.href}>{item.label}</a>
+							</li>
+						))}
 					</ul>
 				</div>
 			</main>
