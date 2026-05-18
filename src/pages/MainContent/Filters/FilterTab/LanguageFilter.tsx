@@ -3,7 +3,6 @@ import type { Action } from "@/types/common";
 import type { DiscoverFiltersType } from "@/types/filters";
 import { Box } from "@mui/material";
 import {
-	LANGUAGES_OPTIONS,
 	SELECT_STYLES,
 	withMenuProps,
 } from "@/constants/filterConstants";
@@ -13,6 +12,7 @@ import CustomTooltip from "@/components/Tooltip";
 import QuestionMarkTooltip from "@/components/QuestionMarkTooltip";
 import FilterAccordionDetails from "@/components/FilterAccordionDetails";
 import SearchableSelect from "@/components/SearchableSelect";
+import { LANGUAGES_OPTIONS } from "@/data/languages";
 
 const renderLanguageOption = (
 	option: (typeof LANGUAGES_OPTIONS)[0],
