@@ -70,6 +70,8 @@ const MoviesContent = () => {
 	const [isSearchButtonVisible, setIsSearchButtonVisible] =
 		useState<boolean>(true);
 	const [openMenus, setOpenMenus] = useState<string[]>([]);
+	const [hasInitiatedLoadMore, setHasInitiatedLoadMore] =
+		useState<boolean>(false);
 
 	const filterContainerRef = useRef<HTMLDivElement>(null);
 	const loadMoreSentinelRef = useRef<HTMLDivElement>(null);
@@ -122,6 +124,7 @@ const MoviesContent = () => {
 	};
 
 	useEffect(() => {
+		if (!hasInitiatedLoadMore) return;
 		const sentinel = loadMoreSentinelRef.current;
 		if (!sentinel || !hasNextPage || isFetchingNextPage) return;
 
@@ -136,7 +139,7 @@ const MoviesContent = () => {
 
 		observer.observe(sentinel);
 		return () => observer.disconnect();
-	}, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+	}, [fetchNextPage, hasNextPage, isFetchingNextPage, hasInitiatedLoadMore]);
 
 	useEffect(() => {
 		let frameId: number | null = null;
@@ -158,6 +161,10 @@ const MoviesContent = () => {
 			if (frameId !== null) cancelAnimationFrame(frameId);
 		};
 	}, []);
+
+	useEffect(() => {
+		setHasInitiatedLoadMore(false);
+	}, [appliedFilters, pageURL]);
 
 	return (
 		<>
@@ -189,13 +196,20 @@ const MoviesContent = () => {
 							</Suspense>
 							{showLoadMore && (
 								<>
-									<div ref={loadMoreSentinelRef} aria-hidden='true' />
-									<Button
-										sx={LOAD_MORE_BUTTON_SX}
-										onClick={() => fetchNextPage()}
-									>
-										Load More
-									</Button>
+									{hasInitiatedLoadMore && (
+										<div ref={loadMoreSentinelRef} aria-hidden='true' />
+									)}
+									{!hasInitiatedLoadMore && (
+										<Button
+											sx={LOAD_MORE_BUTTON_SX}
+											onClick={() => {
+												setHasInitiatedLoadMore(true);
+												fetchNextPage();
+											}}
+										>
+											Load More
+										</Button>
+									)}
 								</>
 							)}
 						</div>

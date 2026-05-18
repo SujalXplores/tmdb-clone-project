@@ -65,15 +65,21 @@
 					padding: 8px 0;
 					list-style: none;
 
-					.list-content {
-						text-decoration: none;
-						color: $color-white;
-						font-size: $font-size-base;
-						line-height: $line-height-24;
-						cursor: pointer;
-						font-weight: 600;
-						padding: 0.5rem 1rem;
-						display: inline-block;
+					.nav-list-item {
+						position: relative;
+
+						.list-content {
+							text-decoration: none;
+							color: $color-white;
+							font-size: $font-size-base;
+							line-height: $line-height-24;
+							cursor: pointer;
+							font-weight: 600;
+							padding: 0.5rem 1rem;
+							display: inline-block;
+							background-color: transparent;
+							border: none;
+						}
 					}
 				}
 			}
@@ -190,6 +196,8 @@
 					display: flex;
 					align-items: center;
 					justify-content: center;
+					background-color: transparent;
+					border: none;
 
 					.menu-icon-img {
 						font-size: 1.4em;
