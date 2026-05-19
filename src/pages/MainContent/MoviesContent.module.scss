@@ -3,6 +3,7 @@
 .moviesContent {
 	background-color: $color-white;
 	margin-top: $header-height;
+	min-height: calc(100vh - $header-height);
 
 	.container {
 		margin: 0 auto;
