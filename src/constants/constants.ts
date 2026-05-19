@@ -43,7 +43,7 @@ export const LOAD_MORE_BUTTON_SX: SxProps<Theme> = {
 	fontWeight: 700,
 	lineHeight: "2.25rem",
 	height: "50px",
-	marginTop: "50px",
+	marginTop: "54px",
 	boxShadow: "none",
 	":hover": {
 		color: "rgba(10, 21, 38, 0.7)",

@@ -24,7 +24,9 @@ const Slider = (
 			valueLabelDisplay='auto'
 			sx={{
 				color: "#01b4e4",
-				padding: "13px 0",
+				padding: "0",
+				marginBottom: "10px",
+				height: "26px",
 				"& .MuiSlider-thumb": {
 					height: 20,
 					width: 20,
@@ -68,6 +70,7 @@ const Slider = (
 				"& .MuiSlider-markLabel": {
 					color: "#6b7280",
 					fontSize: "14px",
+					lineHeight: "14px",
 				},
 				...props.sx,
 			}}
