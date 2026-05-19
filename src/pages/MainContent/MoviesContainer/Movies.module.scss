@@ -2,7 +2,7 @@
 
 .movies {
 	width: calc(100vw - ($nav-padding-x * 2) - $filter-sidebar-width - 8px);
-	max-width: calc($maxScreenWidth - 110px - $filter-sidebar-width);
+	max-width: calc($maxScreenWidth - 118px - $filter-sidebar-width);
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 	gap: 1.5rem;

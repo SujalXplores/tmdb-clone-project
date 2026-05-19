@@ -18,7 +18,7 @@ import {
 export interface SearchableSelectProps<T> {
 	options: T[];
 	value: string | null | undefined;
-	getOptionKey: (option: T) => string;
+	getOptionKey: (option: T) => string | null;
 	getSearchFields: (option: T) => Array<string | undefined>;
 	renderOption: (option: T, isSelectedDisplay: boolean) => ReactNode;
 	onSelect: (option: T) => void;
