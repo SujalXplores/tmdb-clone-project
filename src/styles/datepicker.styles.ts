@@ -83,10 +83,6 @@ export const textFieldSx: SxProps<Theme> = {
 	"& .Mui-focused:not(.Mui-error)": {
 		border: "0px",
 	},
-	"& .MuiPickersInputBase-root-MuiPickersOutlinedInput-root.Mui-focused:not(.Mui-error) .MuiPickersOutlinedInput-notchedOutline":
-		{
-			border: "0px",
-		},
 };
 
 export const popperSx: SxProps<Theme> = {

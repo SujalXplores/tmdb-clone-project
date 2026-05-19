@@ -40,14 +40,16 @@ const NavPopover: FunctionComponent<NavPopoverProps> = ({
 		>
 			<ul className={styles["popover-list"]}>
 				{listContent?.map((item) => (
-					<li
-						key={item.name}
-						className={styles["popover-list-item"]}
-						onClick={() => {
-							if (item.url) void navigate(item.url);
-						}}
-					>
-						<p className={styles["popover-list-link"]}>{item.name}</p>
+					<li key={item.name} className={styles["popover-list-item"]}>
+						<button
+							type='button'
+							className={styles["popover-list-link"]}
+							onClick={() => {
+								if (item.url) void navigate(item.url);
+							}}
+						>
+							{item.name}
+						</button>
 					</li>
 				))}
 			</ul>

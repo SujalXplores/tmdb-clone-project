@@ -10,9 +10,14 @@ export const useMoviesData = (pageURL: string) => {
 	const { state } = useGlobalState();
 	const { appliedFilters, isFiltered } = state;
 
+	const mappedPage = API_URL_FOR_PAGE[pageURL];
+	if (!mappedPage) {
+		throw new Error(`Unknown pageURL: ${pageURL}`);
+	}
+
 	const endpoint = isFiltered
-		? `/discover/${API_URL_FOR_PAGE[pageURL].includes("movie") ? "movie" : "tv"}`
-		: `/${API_URL_FOR_PAGE[pageURL]}`;
+		? `/discover/${mappedPage.includes("movie") ? "movie" : "tv"}`
+		: `/${mappedPage}`;
 
 	const infiniteQuery = useInfiniteData<MovieType>({
 		queryKey: ["movies&tv", endpoint, appliedFilters, pageURL],

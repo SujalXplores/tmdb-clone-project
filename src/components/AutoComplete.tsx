@@ -27,8 +27,8 @@ const Autocomplete = <
 		<MuiAutocomplete
 			className={className}
 			{...props}
+			readOnly={isSelectOnly}
 			slotProps={{
-				config: { readOnly: isSelectOnly },
 				popper: { sx: popperSx },
 				listbox: { sx: listboxSx },
 				chip: { sx: chipSx },

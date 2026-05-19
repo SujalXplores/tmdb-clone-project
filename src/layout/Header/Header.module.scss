@@ -296,6 +296,9 @@
 	font-size: $font-size-small;
 	line-height: $line-height-22;
 	font-weight: 400;
+	background: transparent;
+	border: none;
+	cursor: pointer;
 }
 
 .popover-list-link:active {

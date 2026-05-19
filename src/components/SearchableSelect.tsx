@@ -45,11 +45,11 @@ const SearchableSelect = <T,>({
 	const searchFieldRef = useRef<HTMLInputElement>(null);
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-	const activeSelection = useMemo(
-		() => options.find((o) => getOptionKey(o) === value) || options[0],
-		[options, value, getOptionKey],
+	const activeSelection = useMemo(  
+		() => options.find((o) => getOptionKey(o) === value),  
+		[options, value, getOptionKey],  
 	);
-
+	
 	const filteredOptions = useMemo(() => {
 		const cleanSearch = searchTerm.toLowerCase().trim();
 		if (!cleanSearch) return options;

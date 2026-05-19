@@ -1254,11 +1254,4 @@ export const LANGUAGES_OPTIONS: Array<LanguagesOptionsType> = [
 		native_name: "Kongo",
 		count: 1,
 	},
-	{
-		folded_name: "None Selected",
-		english_name: "None Selected",
-		iso_639_1: "",
-		native_name: "None Selected",
-		count: 9999999,
-	},
 ];
