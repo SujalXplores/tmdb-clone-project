@@ -78,14 +78,22 @@ const MoviesContent = () => {
 						</div>
 						<div>
 							<Suspense fallback={<TopLoader />}>
-								<MoviesContainer
-									movies={movies}
-									isLoading={isLoading || isFetchingNextPage}
-								/>
+								<MoviesContainer movies={movies} isLoading={isLoading} />
 							</Suspense>
 							{showLoadMore &&
 								(hasInitiated ? (
-									<div ref={sentinelRef} aria-hidden='true' />
+									<>
+										<div ref={sentinelRef} aria-hidden='true' />
+										<Button
+											sx={LOAD_MORE_BUTTON_SX}
+											onClick={() => {
+												initiate();
+												void fetchNextPage();
+											}}
+										>
+											Load More
+										</Button>
+									</>
 								) : (
 									<Button
 										sx={LOAD_MORE_BUTTON_SX}
