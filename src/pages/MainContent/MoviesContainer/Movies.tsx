@@ -13,29 +13,27 @@ const MoviesContainer: FunctionComponent<{
 	return (
 		<>
 			<div className={styles.movies}>
-				{isLoading &&
-					Array.from(new Array(10).keys()).map((index) => {
-						return (	
+				{isLoading && movies.length === 0
+					? Array.from(new Array(10).keys()).map((index) => (
 							<div key={index}>
 								<Skeleton variant='rounded' height={280} />
 								<Skeleton variant='text' height={40} />
 								<Skeleton variant='text' />
 							</div>
-						);
-					})}
-				{movies.map((movie) => (
-					<MovieCard
-						key={movie.id}
-						imgUrl={movie.poster_path}
-						title={"title" in movie ? movie.title : movie.name}
-						date={
-							"release_date" in movie
-								? movie.release_date
-								: movie.first_air_date
-						}
-						description={movie.overview}
-					/>
-				))}
+						))
+					: movies.map((movie) => (
+							<MovieCard
+								key={movie.id}
+								imgUrl={movie.poster_path}
+								title={"title" in movie ? movie.title : movie.name}
+								date={
+									"release_date" in movie
+										? movie.release_date
+										: movie.first_air_date
+								}
+								description={movie.overview}
+							/>
+						))}
 			</div>
 			{movies.length === 0 && !isLoading && (
 				<Typography>No items were found that match your query.</Typography>
