@@ -66,9 +66,7 @@ const MoviesContent = () => {
 					<div className={styles.mainContent}>
 						<div>
 							<div className={styles.filtersContainer} ref={filterContainerRef}>
-								<Suspense fallback={<TopLoader />}>
-									<AllFiltersComponent countriesData={countriesData} />
-								</Suspense>
+								<AllFiltersComponent countriesData={countriesData} />
 							</div>
 							<SearchButton
 								sx={SEARCH_BUTTON_SX}
