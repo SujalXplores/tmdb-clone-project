@@ -6,13 +6,21 @@ import type {
 } from "@tanstack/react-query";
 import type { DiscoverFiltersType } from "./filters";
 import type { DatePickerProps } from "@mui/x-date-pickers/DatePicker";
-import type { ElementType, ReactNode } from "react";
-import type { AutocompleteProps, ChipTypeMap, TextFieldProps } from "@mui/material";
+import type { ElementType, ErrorInfo, ReactNode } from "react";
+import type {
+	AutocompleteProps,
+	ChipTypeMap,
+	TextFieldProps,
+} from "@mui/material";
+export type QueryParams = Record<
+	string,
+	string | number | boolean | null | undefined
+>;
 
 export interface UseAppQueryProps<TData> {
-	queryKey: any[];
+	queryKey: readonly unknown[];
 	url: string;
-	params?: Record<string, any>;
+	params?: QueryParams;
 	options?: Omit<
 		UseQueryOptions<TData, APIResponseError, TData>,
 		"queryKey" | "queryFn"
@@ -22,7 +30,7 @@ export interface UseAppQueryProps<TData> {
 export type UseAppInfiniteQueryProps<T> = {
 	queryKey: readonly unknown[];
 	url: string;
-	params?: Record<string, any>;
+	params?: QueryParams;
 	options?: Omit<
 		UseInfiniteQueryOptions<
 			ApiResponse<T>,
@@ -34,10 +42,10 @@ export type UseAppInfiniteQueryProps<T> = {
 	>;
 };
 
-export interface MutationVariables {
+export interface MutationVariables<TPayload = unknown> {
 	url: string;
-	payload: any;
-	params?: Record<string, any>;
+	payload: TPayload;
+	params?: QueryParams;
 	baseUrl?: string;
 }
 
@@ -63,14 +71,12 @@ export interface State {
 	appliedFilters: DiscoverFiltersType;
 	isDirty: boolean;
 	isFiltered: boolean;
-	isDrawerOpen: boolean;
 }
 
 export type Action =
 	| { type: "SET_FILTERS"; payload: DiscoverFiltersType }
 	| { type: "APPLY_FILTERS" }
-	| { type: "INIT_PAGE_FILTERS"; payload: DiscoverFiltersType }
-	| { type: "TOGGLE_DRAWER" };
+	| { type: "INIT_PAGE_FILTERS"; payload: DiscoverFiltersType };
 
 export interface CustomDatePickerProps extends DatePickerProps {
 	error?: boolean;
@@ -102,3 +108,22 @@ export type AppAutocompleteProps<
 	>;
 	className?: string;
 };
+
+export type FilterState = Omit<State, "isDrawerOpen">;
+export type FilterAction = Exclude<Action, { type: "TOGGLE_DRAWER" }>;
+
+export interface ErrorBoundaryProps {
+	children: ReactNode;
+	fallback?: ReactNode;
+	onError?: (error: Error, errorInfo: ErrorInfo) => void;
+}
+
+export interface ErrorBoundaryState {
+	hasError: boolean;
+	error: Error | null;
+}
+
+export interface RequiredEnv {
+	VITE_BEARER_TOKEN: string;
+	VITE_BASE_API_URL: string;
+}

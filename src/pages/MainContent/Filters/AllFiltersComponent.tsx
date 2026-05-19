@@ -1,22 +1,23 @@
 import {
-	COUNTRY_OPTIONS,
 	SELECT_STYLES,
 	SORT_BY_OPTIONS,
 	withMenuProps,
-} from "../../../constants/filterConstants";
-import Accordion from "../../../components/Accordion";
+} from "@/constants/filterConstants";
+import Accordion from "@/components/Accordion";
 import styles from "./AllFiltersComponent.module.scss";
-import { useGlobalState } from "../../../store/store";
-import Typography from "../../../components/Typography";
-import { lazy, useEffect, useState, type FunctionComponent } from "react";
-import type { CountriesType, OTTProviderType } from "../../../types/filters";
-import AccordionDetails from "../../../components/AccordionDetails";
-import { Box, MenuItem, Select } from "@mui/material";
-import Checkbox from "../../../components/Checkbox";
+import { useGlobalState } from "@/store/store";
+import Typography from "@/components/Typography";
+import { lazy, useState, type FunctionComponent } from "react";
+import type { CountriesType, OTTProviderType } from "@/types/filters";
+import AccordionDetails from "@/components/AccordionDetails";
+import { Box, MenuItem, Select, useMediaQuery } from "@mui/material";
+import Checkbox from "@/components/Checkbox";
 import { useLocation } from "react-router";
-import { useData } from "../../../lib/useData";
-import QuestionMarkTooltip from "../../../components/QuestionMarkTooltip";
-import CustomTooltip from "../../../components/Tooltip";
+import { useData } from "@/lib/useData";
+import QuestionMarkTooltip from "@/components/QuestionMarkTooltip";
+import CustomTooltip from "@/components/Tooltip";
+import FilterAccordionDetails from "@/components/FilterAccordionDetails";
+import { COUNTRY_OPTIONS } from "@/data/countries";
 
 const WhereToWatchFilter = lazy(() => import("./WhereToWatchTab"));
 const FilterTab = lazy(() => import("./FilterTab/FiltersTab"));
@@ -29,37 +30,25 @@ const AllFiltersComponent: FunctionComponent<{
 
 	const [countriesCount, setCountriesCount] = useState<number>(0);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const [filterTabExpand, setFilterTabExpand] = useState<boolean>(
-		window.innerWidth < 1160,
-	);
+	const isWide = useMediaQuery("(min-width: 1160px)");
+	const [filterTabExpandOverride, setFilterTabExpandOverride] = useState<
+		boolean | null
+	>(null);
+	const filterTabExpand = filterTabExpandOverride ?? isWide;
 
-	const pageUrl = useLocation().pathname;
+	const pageURL = useLocation().pathname;
 
 	const selectedCountry = COUNTRY_OPTIONS.find(
 		(item) => item.iso_3166_1 === filters.watch_region,
 	);
 
 	const { data } = useData<OTTProviderType>({
-		queryKey: ["ott_providers", filters.watch_region, pageUrl],
-		url: `/watch/providers/${pageUrl.includes("movie") ? "movie" : "tv"}`,
+		queryKey: ["ott_providers", filters.watch_region, pageURL],
+		url: `/watch/providers/${pageURL.includes("movie") ? "movie" : "tv"}`,
 		params: { language: "en-US", watch_region: selectedCountry?.iso_3166_1 },
 	});
 
 	const ottProviders = data?.results || [];
-
-	useEffect(() => {
-		const handleResize = () => {
-			if (window.innerWidth < 1160) {
-				setFilterTabExpand(false);
-			} else {
-				setFilterTabExpand(true);
-			}
-		};
-
-		window.addEventListener("resize", handleResize);
-		handleResize();
-		return () => window.removeEventListener("resize", handleResize);
-	}, []);
 
 	return (
 		<div className={styles.filtersContainer}>
@@ -190,12 +179,7 @@ const AllFiltersComponent: FunctionComponent<{
 					</div>
 				}
 			>
-				<AccordionDetails
-					sx={{
-						borderBottom: "1px solid #e5e7eb",
-						borderRadius: "8px 8px 0 0",
-					}}
-				>
+				<FilterAccordionDetails>
 					<Typography
 						fontWeight={300}
 						mb={"10px"}
@@ -222,7 +206,7 @@ const AllFiltersComponent: FunctionComponent<{
 							Restrict searches to my subscribed services?
 						</Typography>
 					</Box>
-				</AccordionDetails>
+				</FilterAccordionDetails>
 				<AccordionDetails>
 					<WhereToWatchFilter
 						countriesData={countriesData}
@@ -234,7 +218,7 @@ const AllFiltersComponent: FunctionComponent<{
 			<Accordion
 				title={"Filters"}
 				expanded={filterTabExpand}
-				onChange={() => setFilterTabExpand(!filterTabExpand)}
+				onChange={() => setFilterTabExpandOverride(!filterTabExpand)}
 			>
 				<FilterTab
 					countriesData={countriesData}

@@ -1,11 +1,11 @@
 import { type ChangeEvent, type Dispatch, type FunctionComponent } from "react";
-import FormControlLabel from "../../../../components/FormControlLabel";
-import type { DiscoverFiltersType } from "../../../../types/filters";
-import type { Action } from "../../../../types/common";
-import Checkbox from "../../../../components/Checkbox";
+import FormControlLabel from "@/components/FormControlLabel";
+import type { DiscoverFiltersType } from "@/types/filters";
+import type { Action } from "@/types/common";
+import Checkbox from "@/components/Checkbox";
 import styles from "../AllFiltersComponent.module.scss";
-import AccordionDetails from "../../../../components/AccordionDetails";
-import FilterSectionTitle from "../../../../components/FilterSectionTitle";
+import FilterSectionTitle from "@/components/FilterSectionTitle";
+import FilterAccordionDetails from "@/components/FilterAccordionDetails";
 
 const AvailabilitiesFilter: FunctionComponent<{
 	dispatch: Dispatch<Action>;
@@ -36,12 +36,7 @@ const AvailabilitiesFilter: FunctionComponent<{
 	};
 
 	return (
-		<AccordionDetails
-			sx={{
-				borderBottom: "1px solid #e5e7eb",
-				borderRadius: "8px 8px 0 0",
-			}}
-		>
+		<FilterAccordionDetails>
 			<FilterSectionTitle title='Availabilities' />
 			<FormControlLabel
 				value='show_me'
@@ -124,7 +119,7 @@ const AvailabilitiesFilter: FunctionComponent<{
 					/>
 				</div>
 			)}
-		</AccordionDetails>
+		</FilterAccordionDetails>
 	);
 };
 

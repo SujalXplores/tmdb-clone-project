@@ -1,20 +1,26 @@
-// FilterContext.tsx
 import {
 	createContext,
-	useContext,
+	use,
+	useCallback,
+	useMemo,
 	useReducer,
+	useState,
 	type Dispatch,
 	type ReactNode,
 } from "react";
 import { FILTERS_INITIAL_STATE } from "../constants/filterConstants";
-import type { Action, State } from "../types/common";
+import type { FilterAction, FilterState } from "../types/common";
+
 
 const FilterContext = createContext<{
-	state: State;
-	dispatch: Dispatch<Action>;
+	state: FilterState;
+	dispatch: Dispatch<FilterAction>;
 } | null>(null);
 
-const reducer = (state: State, action: Action): State => {
+const filterReducer = (
+	state: FilterState,
+	action: FilterAction,
+): FilterState => {
 	switch (action.type) {
 		case "SET_FILTERS":
 			return { ...state, filters: action.payload, isDirty: true };
@@ -33,33 +39,60 @@ const reducer = (state: State, action: Action): State => {
 				isDirty: false,
 				isFiltered: false,
 			};
-		case "TOGGLE_DRAWER":
-			return { ...state, isDrawerOpen: !state.isDrawerOpen };
 		default:
 			return state;
 	}
 };
 
+interface UIContextValue {
+	isDrawerOpen: boolean;
+	toggleDrawer: () => void;
+}
+
+const UIContext = createContext<UIContextValue | null>(null);
+
 export const FilterProvider = ({ children }: { children: ReactNode }) => {
-	const [state, dispatch] = useReducer(reducer, {
+	const [filterState, filterDispatch] = useReducer(filterReducer, {
 		filters: FILTERS_INITIAL_STATE,
 		appliedFilters: FILTERS_INITIAL_STATE,
 		isDirty: false,
 		isFiltered: false,
-		isDrawerOpen: false,
 	});
 
+	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+	const toggleDrawer = useCallback(() => setIsDrawerOpen((prev) => !prev), []);
+
+	const filterValue = useMemo(
+		() => ({ state: filterState, dispatch: filterDispatch }),
+		[filterState],
+	);
+
+	const uiValue = useMemo(
+		() => ({ isDrawerOpen, toggleDrawer }),
+		[isDrawerOpen, toggleDrawer],
+	);
+
 	return (
-		<FilterContext.Provider value={{ state, dispatch }}>
-			{children}
-		</FilterContext.Provider>
+		<FilterContext value={filterValue}>
+			<UIContext value={uiValue}>{children}</UIContext>
+		</FilterContext>
 	);
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useGlobalState = () => {
-	const context = useContext(FilterContext);
+	const context = use(FilterContext);
 	if (!context) {
 		throw new Error("useGlobalState must be used within FilterProvider");
+	}
+	return context;
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useUIState = () => {
+	const context = use(UIContext);
+	if (!context) {
+		throw new Error("useUIState must be used within FilterProvider");
 	}
 	return context;
 };

@@ -1,4 +1,4 @@
-@use "../../styles/variables" as *;
+@use "@/styles/variables" as *;
 
 .footer {
 	padding-top: 80px;
@@ -62,7 +62,7 @@
 				padding: 8px 16px;
 				border: 2px solid $color-white;
 				transition: linear 0.1s;
-				border-radius: $border-radius-lg;
+				border-radius: $border-radius-md;
 				font-weight: 700;
 				cursor: pointer;
 
@@ -73,7 +73,7 @@
 
 				@media (max-width: $breakpoint-md) {
 					top: 0;
-					color: #235ea7;
+					color: $color-link-blue;
 				}
 			}
 		}
@@ -105,8 +105,10 @@
 					text-underline-offset: 3px;
 				}
 
-				& > p {
+				& > a {
 					font-size: 1.2em;
+					color: inherit;
+					text-decoration: none;
 				}
 			}
 		}

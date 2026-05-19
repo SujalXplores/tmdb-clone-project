@@ -1,0 +1,82 @@
+@use "./variables.scss" as *;
+
+.errorContainer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 400px;
+	padding: 2rem;
+}
+
+.errorContent {
+	max-width: 500px;
+	text-align: center;
+}
+
+.errorTitle {
+	font-size: 1.5rem;
+	font-weight: 600;
+	margin-bottom: 1rem;
+	color: #032541;
+}
+
+.errorMessage {
+	font-size: 1rem;
+	color: #4a5568;
+	margin-bottom: 1.5rem;
+	line-height: 1.5;
+}
+
+.errorDetails {
+	text-align: left;
+	background: #f7fafc;
+	padding: 1rem;
+	border-radius: 8px;
+	margin-bottom: 1.5rem;
+	font-size: 0.875rem;
+
+	summary {
+		cursor: pointer;
+		font-weight: 600;
+		margin-bottom: 0.5rem;
+	}
+
+	pre {
+		white-space: pre-wrap;
+		overflow-wrap: break-word;
+		overflow-x: auto;
+		margin-top: 0.5rem;
+	}
+}
+
+.errorActions {
+	display: flex;
+	gap: 0.75rem;
+	justify-content: center;
+}
+
+.errorButtonPrimary,
+.errorButtonSecondary {
+	padding: 0.5rem 1.25rem;
+	border-radius: 8px;
+	font-size: 0.95rem;
+	font-weight: 600;
+	cursor: pointer;
+	border: none;
+	transition: opacity 0.15s ease;
+
+	&:hover {
+		opacity: 0.85;
+	}
+}
+
+.errorButtonPrimary {
+	background-color: #01b4e4;
+	color: #fff;
+}
+
+.errorButtonSecondary {
+	background-color: transparent;
+	color: #032541;
+	border: 1px solid #032541;
+}

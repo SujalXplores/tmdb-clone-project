@@ -105,3 +105,9 @@ export interface TvNetworksType {
 	vote_average: number;
 	vote_count: number;
 }
+
+export interface CountryOptionProps {
+	flagUrl: string | null | undefined;
+	nativeName: string | null | undefined;
+	isSelectedDisplay: boolean;
+}

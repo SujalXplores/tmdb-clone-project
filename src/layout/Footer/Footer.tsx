@@ -1,5 +1,41 @@
-import Typography from "../../components/Typography";
+import Typography from "@/components/Typography";
 import styles from "./Footer.module.scss";
+import { TMDB_ASSETS } from "@/constants/urls";
+
+const FOOTER_LINK_GROUPS: Array<{
+	title: string;
+	items: string[];
+	extraClassName?: string;
+}> = [
+	{
+		title: "THE BASICS",
+		items: [
+			"About TMDB",
+			"Contact Us",
+			"API Documentation",
+			"API for Business",
+			"System Status",
+		],
+	},
+	{
+		title: "GET INVOLVED",
+		items: ["Contribution Bible", "Add New Movie", "Add New TV Show"],
+	},
+	{
+		title: "COMMUNITY",
+		items: ["Guidelines", "Discussions", "Leaderboard", "Support Forums"],
+	},
+	{
+		title: "LEGAL",
+		items: [
+			"Terms of Use",
+			"API Terms of Use",
+			"Privacy Policy",
+			"DMCA Policy",
+		],
+		extraClassName: "legal-container",
+	},
+];
 
 const Footer = () => {
 	return (
@@ -10,86 +46,40 @@ const Footer = () => {
 						<img
 							alt='The Movie Database (TMDB)'
 							className={styles.tmdbLogo}
-							src='https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg'
+							src={`${TMDB_ASSETS}/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg`}
 						/>
 						<Typography className={styles.joinTheCommunityText}>
 							JOIN THE COMMUNITY
 						</Typography>
 					</section>
-					<div className={styles.footerLinksContainer}>
-						<p className={styles.footerLinksTitle}>THE BASICS</p>
-						<ul className={styles.footerLinksList}>
-							<li>
-								<p>About TMDB</p>
-							</li>
-							<li>
-								<p>Contact Us</p>
-							</li>
-							<li>
-								<p>API Documentation</p>
-							</li>
-							<li>
-								<p>API for Business</p>
-							</li>
-							<li>
-								<p>System Status</p>
-							</li>
-						</ul>
-					</div>
-					<div className={styles.footerLinksContainer}>
-						<p className={styles.footerLinksTitle}>GET INVOLVED</p>
-						<ul className={styles.footerLinksList}>
-							<li>
-								<p>Contribution Bible</p>
-							</li>
-							<li>
-								<p>Add New Movie</p>
-							</li>
-							<li>
-								<p>Add New TV Show</p>
-							</li>
-						</ul>
-					</div>
-					<div className={styles.footerLinksContainer}>
-						<p className={styles.footerLinksTitle}>COMMUNITY</p>
-						<ul className={styles.footerLinksList}>
-							<li>
-								<p>Guidelines</p>
-							</li>
-							<li>
-								<p>Discussions</p>
-							</li>
-							<li>
-								<p>Leaderboard</p>
-							</li>
-							<li>
-								<p>Support Forums</p>
-							</li>
-						</ul>
-					</div>
-					<div className={`${styles.footerLinksContainer} ${styles["legal-container"]}`}>
-						<p className={styles.footerLinksTitle}>LEGAL</p>
-						<ul className={styles.footerLinksList}>
-							<li>
-								<p>Terms of Use</p>
-							</li>
-							<li>
-								<p>API Terms of Use</p>
-							</li>
-							<li>
-								<p>Privacy Policy</p>
-							</li>
-							<li>
-								<p>DMCA Policy</p>
-							</li>
-						</ul>
-					</div>
+					{FOOTER_LINK_GROUPS.map((group) => (
+						<nav
+							key={group.title}
+							className={`${styles.footerLinksContainer} ${
+								group.extraClassName ? styles[group.extraClassName] : ""
+							}`}
+							aria-label={group.title}
+						>
+							<p className={styles.footerLinksTitle}>{group.title}</p>
+							<ul className={styles.footerLinksList}>
+								{group.items.map((item) => (
+									<li key={item}>
+										<a href='#'>{item}</a>
+									</li>
+								))}
+							</ul>
+						</nav>
+					))}
 				</div>
-				<Typography className={`${styles.buildText} ${styles["small-build-text"]}`}>
+				<Typography
+					className={`${styles.buildText} ${styles["small-build-text"]}`}
+				>
 					Build 4e4caf3 (10106)
 				</Typography>
 			</footer>
-				<Typography className={`${styles.buildText} ${styles["large-build-text"]}`}>
+			<Typography
+				className={`${styles.buildText} ${styles["large-build-text"]}`}
+			>
 				Build 4e4caf3 (10106)
 			</Typography>
 		</>

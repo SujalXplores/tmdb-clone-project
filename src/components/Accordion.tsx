@@ -7,7 +7,8 @@ import {
 } from "@mui/material";
 import { type ReactNode, type SyntheticEvent } from "react";
 import Typography from "./Typography";
-import styles from "./Components.module.scss";
+import styles from "@/styles/Components.module.scss";
+import { TMDB_ASSETS } from "@/constants/urls";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -57,7 +58,7 @@ const Accordion = ({
 				expandIcon={
 					expandIcon ?? (
 						<img
-							src='https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-224-chevron-right-d1f88a6c15e68190c3b47e1ee4f39fe47f4b69f4966ca7c250c2e14cfa689a04.svg'
+							src={`${TMDB_ASSETS}/glyphicons/basic/glyphicons-basic-224-chevron-right-d1f88a6c15e68190c3b47e1ee4f39fe47f4b69f4966ca7c250c2e14cfa689a04.svg`}
 							alt='expand'
 							className={styles["accordion-expand-icon"]}
 						/>

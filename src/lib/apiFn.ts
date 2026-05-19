@@ -6,28 +6,9 @@ export const fetchData = <T>({
 	baseUrl
 }: {
 	url: string;
-	params?: Record<string, any>;
+	params?: Record<string, string | number | boolean | null | undefined>;
 	baseUrl?: string;
 }) => {
 	return request<T>({ url, params, baseUrl });
 };
 
-export const postData = <T>({
-	url,
-	payload,
-	params,
-	baseUrl,
-}: {
-	url: string;
-	payload: any;
-	params?: Record<string, any>;
-	baseUrl?: string;
-}) => {
-	return request<T>({
-		url,
-		method: "POST",
-		body: payload,
-		params,
-		baseUrl,
-	});
-};
