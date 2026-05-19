@@ -2,6 +2,7 @@ export const CalendarIcon = () => (
 	<svg
 		viewBox='0 0 512 512'
 		focusable='false'
+		aria-hidden='true'
 		xmlns='http://www.w3.org/2000/svg'
 		fill='currentColor'
 		style={{ width: "1rem", height: "1rem", display: "block" }}

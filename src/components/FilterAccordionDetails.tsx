@@ -10,9 +10,9 @@ const FilterAccordionDetails = (props: AccordionDetailsProps) => {
 			sx={{
 				padding: "14px 16px 16px",
 				position: "relative",
-				borderBottom: "1px solid #e5e7eb",
+				borderBottom: "1px solid `#e5e7eb`",
 				borderRadius: "8px 8px 0 0",
-				...props?.sx,
+				...(props?.sx as object),
 			}}
 		/>
 	);

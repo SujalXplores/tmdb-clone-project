@@ -6,6 +6,16 @@ const getHeaders = () => ({
 	"Cache-Control": "no-cache",
 });
 
+class ApiError extends Error {
+	constructor(
+		public readonly status_code: number,
+		public readonly status_message: string,
+	) {
+		super(`Error: ${status_message}, status code: ${status_code}`);
+		this.name = "ApiError";
+	}
+}
+
 const request = async <T>({
 	url,
 	method = "GET",
@@ -39,7 +49,7 @@ const request = async <T>({
 			{
 				method,
 				headers: getHeaders(),
-				body: body ? JSON.stringify(body) : undefined,
+				body: body === undefined ? undefined : JSON.stringify(body),
 				cache: "no-cache",
 			},
 		);
@@ -49,14 +59,16 @@ const request = async <T>({
 				status_message: string;
 			}>;
 
-			throw new Error(
-				`Error: ${errorData.status_message}, status code: ${errorData.status_code ?? response.status}`,
+			throw new ApiError(
+				errorData.status_code ?? response.status,
+				errorData.status_message ?? response.statusText,
 			);
 		}
 
 		const data = await response.json() as unknown;
 		return data as T;
 	} catch (error: unknown) {
+		if (error instanceof ApiError) throw error;
 		const isObject = typeof error === "object" && error !== null;
 		const status_code =
 			isObject &&

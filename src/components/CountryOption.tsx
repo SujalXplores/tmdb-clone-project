@@ -33,7 +33,6 @@ const CountryOption: FunctionComponent<CountryOptionProps> = ({
 }) => (
 	<Box
 		sx={{
-			color: "getContrastText()",
 			fontSize: "0.875rem",
 			display: "flex",
 			alignItems: "center",
@@ -55,7 +54,7 @@ const CountryOption: FunctionComponent<CountryOptionProps> = ({
 			countryName={nativeName || ""}
 			size={isSelectedDisplay ? 24 : 20}
 		/>
-		<Typography sx={{ fontSize: "0.9rem", color: "getContrastText()" }}>
+		<Typography sx={{ fontSize: "0.9rem", color: "theme.palette.text.primary" }}>
 			{nativeName}
 		</Typography>
 	</Box>

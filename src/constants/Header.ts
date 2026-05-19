@@ -52,4 +52,4 @@ export const NAV_MENUS: Array<{
 ];
 
 export const POPOVER_CLOSE_DELAY_MS = 200;
-export const SCROLL_HIDE_THRESHOLD = 100;
+export const SCROLL_HIDE_THRESHOLD = 64;

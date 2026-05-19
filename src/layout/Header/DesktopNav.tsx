@@ -1,4 +1,5 @@
 import {
+	useEffect,
 	useRef,
 	useState,
 	type FunctionComponent,
@@ -8,10 +9,7 @@ import logo from "@/assets/tmdb-logo.svg";
 import styles from "./Header.module.scss";
 import NavPopover from "./NavPopover";
 import type { MenuKey } from "@/types/header";
-import {
-	NAV_MENUS,
-	POPOVER_CLOSE_DELAY_MS,
-} from "@/constants/Header";
+import { NAV_MENUS, POPOVER_CLOSE_DELAY_MS } from "@/constants/Header";
 import { ASSET_URLS } from "@/constants/urls";
 
 const DesktopNav: FunctionComponent = () => {
@@ -26,6 +24,7 @@ const DesktopNav: FunctionComponent = () => {
 	};
 
 	const handlePopoverClose = () => {
+		if (timeoutRef.current) clearTimeout(timeoutRef.current);
 		timeoutRef.current = setTimeout(() => {
 			setAnchorEl(null);
 			setActiveMenu(null);
@@ -35,6 +34,12 @@ const DesktopNav: FunctionComponent = () => {
 	const cancelClose = () => {
 		if (timeoutRef.current) clearTimeout(timeoutRef.current);
 	};
+
+	useEffect(() => {
+		return () => {
+			if (timeoutRef.current) clearTimeout(timeoutRef.current);
+		};
+	}, []);
 
 	const isAnyMenuOpen = Boolean(anchorEl);
 

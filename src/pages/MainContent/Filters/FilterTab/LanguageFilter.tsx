@@ -21,7 +21,7 @@ const renderLanguageOption = (
 	<Typography
 		variant='body2'
 		sx={{
-			color: "getContrastText()",
+			color: "theme.palette.text.primary",
 			fontSize: "0.875rem",
 			...(isSelectedDisplay && {
 				overflow: "hidden",

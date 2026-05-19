@@ -642,7 +642,7 @@ export const COUNTRY_OPTIONS: Array<CountriesType> = [
 	{
 		flagUrl: "/assets/2/flags_v2/48/GP.png",
 		iso_3166_1: "GP",
-		english_name: "Guadaloupe",
+		english_name: "Guadeloupe",
 		native_name: "Guadeloupe",
 	},
 	{

@@ -62,7 +62,7 @@ const KeywordFilter: FunctionComponent<{
 					});
 				}}
 				renderInput={(params) => (
-					<TextField {...params} placeholder='Filter by TV networks...' />
+					<TextField {...params} placeholder="Filter by keywords..." />
 				)}
 				onInputChange={(_event, value, reason) => {
 					if (reason === "input" || reason === "clear") {

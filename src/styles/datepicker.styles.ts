@@ -1,6 +1,6 @@
-import type { SxProps, Theme } from "@mui/material";
+import type { SystemStyleObject, Theme } from "@mui/system";
 
-export const textFieldSx: SxProps<Theme> = {
+export const textFieldSx: SystemStyleObject<Theme> = {
 	"&:hover fieldset": {
 		border: "1px solid #D3D3D4 !important",
 	},
@@ -85,7 +85,7 @@ export const textFieldSx: SxProps<Theme> = {
 	},
 };
 
-export const popperSx: SxProps<Theme> = {
+export const popperSx: SystemStyleObject<Theme> = {
 	"& .MuiPaper-root": {
 		borderRadius: "12px",
 		border: "1px solid #e5e7eb",

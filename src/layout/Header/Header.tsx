@@ -12,6 +12,7 @@ const Header: FunctionComponent = () => {
 
 	useEffect(() => {
 		if (isDrawerOpen) return;
+		scrollPositionRef.current = window.scrollY;
 
 		let frameId: number | null = null;
 
