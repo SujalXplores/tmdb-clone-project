@@ -16,6 +16,7 @@ import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useStickyButton } from "@/hooks/useStickyButton";
 import SearchButton from "./SearchButton";
 import MobileDrawer from "./MobileDrawer";
+import { Skeleton } from "@mui/material";
 
 const AllFiltersComponent = lazy(() => import("./Filters/AllFiltersComponent"));
 const MoviesContainer = lazy(() => import("./MoviesContainer/Movies"));
@@ -65,14 +66,19 @@ const MoviesContent = () => {
 					<h3 className={styles.heading}>{headerTitle}</h3>
 					<div className={styles.mainContent}>
 						<div>
-							<div className={styles.filtersContainer} ref={filterContainerRef}>
-								<AllFiltersComponent countriesData={countriesData} />
-							</div>
-							<SearchButton
-								sx={SEARCH_BUTTON_SX}
-								onClick={applyFilters}
-								disabled={!isDirty}
-							/>
+							<Suspense fallback={<Skeleton variant='rectangular' height={1000}/>}>
+								<div
+									className={styles.filtersContainer}
+									ref={filterContainerRef}
+								>
+									<AllFiltersComponent countriesData={countriesData} />
+								</div>
+								<SearchButton
+									sx={SEARCH_BUTTON_SX}
+									onClick={applyFilters}
+									disabled={!isDirty}
+								/>
+							</Suspense>
 						</div>
 						<div>
 							<Suspense fallback={<TopLoader />}>
