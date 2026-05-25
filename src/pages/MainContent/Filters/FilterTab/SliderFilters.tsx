@@ -79,18 +79,19 @@ const SliderFilter: FunctionComponent<{
 		step: number,
 		labeledValues: number[],
 	) => {
+		const labeledSet = new Set(labeledValues);
 		const marks = [];
 		for (let i = min; i <= max; i += step) {
 			marks.push({
 				value: i,
-				label: labeledValues.includes(i) ? i.toString() : "",
+				label: labeledSet.has(i) ? i.toString() : "",
 			});
 		}
 
 		if (marks[marks.length - 1].value !== max) {
 			marks.push({
 				value: max,
-				label: labeledValues.includes(max) ? max.toString() : "",
+				label: labeledSet.has(max) ? max.toString() : "",
 			});
 		}
 

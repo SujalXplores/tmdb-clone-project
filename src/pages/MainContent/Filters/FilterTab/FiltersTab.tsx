@@ -49,7 +49,7 @@ const FilterTab: FunctionComponent<{
 				with_release_type: isReleaseTypeRoute ? "3" : null,
 			},
 		});
-	}, [pageURL, dispatch]);
+	}, [pageURL, dispatch, isReleaseTypeRoute]);
 
 	return (
 		<>

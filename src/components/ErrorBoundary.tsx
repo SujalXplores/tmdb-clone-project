@@ -30,7 +30,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 					<div className={styles.errorContent}>
 						<h2 className={styles.errorTitle}>Something went wrong</h2>
 						<p className={styles.errorMessage}>
-							We&apos;re sorry — something went wrong on our end. Try again, or
+							We&apos;re sorry, something went wrong on our end. Try again, or
 							refresh the page if the problem persists.
 						</p>
 						{import.meta.env.DEV && this.state.error && (

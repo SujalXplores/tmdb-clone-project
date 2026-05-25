@@ -16,6 +16,36 @@ type AppCheckboxProps = CheckboxProps & {
 	className?: string;
 };
 
+const CheckmarkSvg = () => (
+	<svg
+		width='10'
+		height='10'
+		viewBox='0 0 24 24'
+		fill='none'
+		stroke='white'
+		strokeWidth='4'
+		strokeLinecap='round'
+		strokeLinejoin='round'
+	>
+		<polyline points='20 6 9 17 4 12'></polyline>
+	</svg>
+);
+
+const IndeterminateSvg = () => (
+	<svg
+		width='10'
+		height='10'
+		viewBox='0 0 24 24'
+		fill='none'
+		stroke='white'
+		strokeWidth='4'
+		strokeLinecap='round'
+		strokeLinejoin='round'
+	>
+		<line x1='5' y1='12' x2='19' y2='12'></line>
+	</svg>
+);
+
 const Checkbox = ({
 	label,
 	helperText,
@@ -31,68 +61,17 @@ const Checkbox = ({
 			{...props}
 			icon={
 				<span
-					style={{
-						width: 16,
-						height: 16,
-						borderRadius: 3,
-						border: error ? "1px solid #ef4444" : "1px solid #d3d3d4",
-						backgroundColor: "transparent",
-						boxSizing: "border-box",
-					}}
+					className={`${styles.checkboxIcon} ${error ? styles.error : ""}`}
 				/>
 			}
 			checkedIcon={
-				<span
-					style={{
-						width: 16,
-						height: 16,
-						borderRadius: 3,
-						backgroundColor: "#02B4E4",
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "center",
-						boxSizing: "border-box",
-					}}
-				>
-					<svg
-						width='10'
-						height='10'
-						viewBox='0 0 24 24'
-						fill='none'
-						stroke='white'
-						strokeWidth='4'
-						strokeLinecap='round'
-						strokeLinejoin='round'
-					>
-						<polyline points='20 6 9 17 4 12'></polyline>
-					</svg>
+				<span className={styles.checkboxIconChecked}>
+					<CheckmarkSvg />
 				</span>
 			}
 			indeterminateIcon={
-				<span
-					style={{
-						width: 16,
-						height: 16,
-						borderRadius: 3,
-						backgroundColor: "#02B4E4",
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "center",
-						boxSizing: "border-box",
-					}}
-				>
-					<svg
-						width='10'
-						height='10'
-						viewBox='0 0 24 24'
-						fill='none'
-						stroke='white'
-						strokeWidth='4'
-						strokeLinecap='round'
-						strokeLinejoin='round'
-					>
-						<line x1='5' y1='12' x2='19' y2='12'></line>
-					</svg>
+				<span className={styles.checkboxIconChecked}>
+					<IndeterminateSvg />
 				</span>
 			}
 			sx={{
@@ -110,7 +89,7 @@ const Checkbox = ({
 	);
 
 	return (
-		<div className={`${className} ${styles.checkboxContainer}`}>
+		<div className={`${className ?? ""} ${styles.checkboxContainer}`}>
 			{label ? (
 				<FormControlLabel
 					control={checkbox}

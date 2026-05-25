@@ -1,14 +1,5 @@
-import {
-	useEffect,
-	useState,
-	type Dispatch,
-	type FunctionComponent,
-	type SetStateAction,
-} from "react";
-import type {
-	CountriesType,
-	OTTProviderResponseType,
-} from "@/types/filters";
+import { useState, type FunctionComponent } from "react";
+import type { CountriesType, OTTProviderResponseType } from "@/types/filters";
 import { useGlobalState } from "@/store/store";
 import Typography from "@/components/Typography";
 import { Box } from "@mui/material";
@@ -20,16 +11,30 @@ import { COUNTRY_OPTIONS } from "@/data/countries";
 
 const WhereToWatchFilter: FunctionComponent<{
 	countriesData: Array<CountriesType>;
-	setCountriesCount: Dispatch<SetStateAction<number>>;
 	ottProviders: Array<OTTProviderResponseType>;
-}> = ({ countriesData, setCountriesCount, ottProviders }) => {
+}> = ({ ottProviders }) => {
 	const [hoverOn, setHoverOn] = useState<number | null>(null);
 	const { state, dispatch } = useGlobalState();
 	const { filters } = state;
 
-	useEffect(() => {
-		setCountriesCount(countriesData.length);
-	}, [countriesData, setCountriesCount]);
+	const handleProviderToggle = (providerId: number) => {
+		const currentSelected = filters?.with_watch_providers
+			? filters.with_watch_providers.split("|")
+			: [];
+		const idStr = String(providerId);
+
+		const newSelected = currentSelected.includes(idStr)
+			? currentSelected.filter((id) => id !== idStr)
+			: [...currentSelected, idStr];
+
+		dispatch({
+			type: "SET_FILTERS",
+			payload: {
+				...filters,
+				with_watch_providers: newSelected.join("|"),
+			},
+		});
+	};
 
 	return (
 		<>
@@ -88,29 +93,16 @@ const WhereToWatchFilter: FunctionComponent<{
 							key={provider.provider_id}
 							title={provider.provider_name}
 						>
-							<div
+							<button
+								type='button'
 								className={styles.providerContainer}
 								onMouseEnter={() => setHoverOn(provider.provider_id)}
 								onMouseLeave={() => setHoverOn(null)}
-								onClick={() => {
-									const currentState =
-										filters?.with_watch_providers?.split("|");
-									if (currentState?.includes(String(provider.provider_id))) {
-										currentSelected.splice(
-											currentSelected.indexOf(String(provider.provider_id)),
-											1,
-										);
-									} else {
-										currentSelected.push(String(provider.provider_id));
-									}
-									dispatch({
-										type: "SET_FILTERS",
-										payload: {
-											...filters,
-											with_watch_providers: currentSelected.join("|"),
-										},
-									});
-								}}
+								onClick={() => handleProviderToggle(provider.provider_id)}
+								aria-pressed={isSelected}
+								aria-label={`${provider.provider_name}${
+									isSelected ? " (selected)" : ""
+								}`}
 							>
 								<img
 									src={`https://media.themoviedb.org/t/p/original${provider.logo_path}`}
@@ -127,7 +119,7 @@ const WhereToWatchFilter: FunctionComponent<{
 								>
 									<span className={styles.providerHoverImage}></span>
 								</div>
-							</div>
+							</button>
 						</CustomTooltip>
 					);
 				})}

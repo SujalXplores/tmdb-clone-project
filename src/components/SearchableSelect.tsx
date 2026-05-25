@@ -30,6 +30,16 @@ export interface SearchableSelectProps<T> {
 	selectSx?: SelectProps["sx"];
 }
 
+const OptionDisplay = <T,>({
+	option,
+	render,
+	isSelected,
+}: {
+	option: T;
+	render: (opt: T, isSelected: boolean) => ReactNode;
+	isSelected: boolean;
+}) => <>{render(option, isSelected)}</>;
+
 const SearchableSelect = <T,>({
 	options,
 	value,
@@ -45,11 +55,11 @@ const SearchableSelect = <T,>({
 	const searchFieldRef = useRef<HTMLInputElement>(null);
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-	const activeSelection = useMemo(  
-		() => options.find((o) => getOptionKey(o) === value),  
-		[options, value, getOptionKey],  
+	const activeSelection = useMemo(
+		() => options.find((o) => getOptionKey(o) === value),
+		[options, value, getOptionKey],
 	);
-	
+
 	const filteredOptions = useMemo(() => {
 		const cleanSearch = searchTerm.toLowerCase().trim();
 		if (!cleanSearch) return options;
@@ -83,7 +93,13 @@ const SearchableSelect = <T,>({
 			}}
 			onClose={() => setIsOpen(false)}
 			renderValue={() =>
-				activeSelection ? renderOption(activeSelection, true) : null
+				activeSelection ? (
+					<OptionDisplay
+						option={activeSelection}
+						render={renderOption}
+						isSelected
+					/>
+				) : null
 			}
 			MenuProps={{
 				autoFocus: false,
@@ -174,7 +190,11 @@ const SearchableSelect = <T,>({
 									},
 								}}
 							>
-								{renderOption(option, false)}
+								<OptionDisplay
+									option={option}
+									render={renderOption}
+									isSelected={false}
+								/>
 							</MenuItem>
 						);
 					})

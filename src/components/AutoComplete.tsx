@@ -2,8 +2,23 @@ import { Autocomplete as MuiAutocomplete } from "@mui/material";
 import TextField from "./TextField";
 import Typography from "./Typography";
 import type { AppAutocompleteProps } from "@/types/common";
-import { chipSx, clearIndicatorSx, getRootSx, listboxSx, paperSx, popperSx, popupIndicatorSx, textFieldSx } from "@/styles/autocomplete.styles";
+import {
+	chipSx,
+	clearIndicatorSx,
+	getRootSx,
+	listboxSx,
+	paperSx,
+	popperSx,
+	popupIndicatorSx,
+	textFieldSx,
+} from "@/styles/autocomplete.styles";
 import { ChevronIcon, CloseIcon } from "./icons/AutoCompleteIcons";
+
+const NO_OPTIONS_TEXT = (
+	<Typography fontWeight={100} sx={{ color: "#565e64" }}>
+		No Data Found.
+	</Typography>
+);
 
 const Autocomplete = <
 	T,
@@ -39,13 +54,7 @@ const Autocomplete = <
 			sx={{ ...sx, ...getRootSx(isSelectOnly) }}
 			popupIcon={props.popupIcon || <ChevronIcon />}
 			clearIcon={props.clearIcon || <CloseIcon />}
-			noOptionsText={
-				props.noOptionsText || (
-					<Typography fontWeight={100} sx={{ color: "#565e64" }}>
-						No Data Found.
-					</Typography>
-				)
-			}
+			noOptionsText={props.noOptionsText ?? NO_OPTIONS_TEXT}
 			renderInput={(params) => (
 				<TextField
 					{...params}
