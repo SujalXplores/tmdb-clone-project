@@ -49,7 +49,7 @@ const NetworkFilter: FunctionComponent<{
 		tvNetworksDebouncedSearchValue.length > 0 &&
 		!isFetching;
 
-	const handleBlur = () => {
+	const clearSearchInput = () => {
 		setIsOpen(false);
 		setTvNetworkSearchValue("");
 		reset();
@@ -64,7 +64,7 @@ const NetworkFilter: FunctionComponent<{
 				open={isOpen && shouldShowMenu}
 				onOpen={() => setIsOpen(true)}
 				onClose={() => setIsOpen(false)}
-				onBlur={handleBlur}
+				onBlur={clearSearchInput}
 				inputValue={tvNetworksSearchValue}
 				options={tvNetworks?.results || []}
 				getOptionLabel={(option) =>

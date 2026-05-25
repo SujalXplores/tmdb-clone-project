@@ -6,9 +6,11 @@ const Slider = (
 		marks: Array<{ value: number; label: string }>;
 	},
 ) => {
-	const tallIndices = props.tallmarks
-		.map((targetValue) => props.marks.findIndex((m) => m.value === targetValue))
-		.filter((index) => index !== -1);
+	const tallIndices = props.tallmarks.reduce<number[]>((acc, targetValue) => {
+		const index = props.marks.findIndex((m) => m.value === targetValue);
+		if (index !== -1) acc.push(index);
+		return acc;
+	}, []);
 
 	const tallmarksSelector =
 		tallIndices.length > 0

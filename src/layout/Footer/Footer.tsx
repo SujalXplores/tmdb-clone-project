@@ -64,7 +64,7 @@ const Footer = () => {
 							<ul className={styles.footerLinksList}>
 								{group.items.map((item) => (
 									<li key={item}>
-										<a href='#'>{item}</a>
+										<button type='button'>{item}</button>
 									</li>
 								))}
 							</ul>
