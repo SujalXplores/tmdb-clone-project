@@ -1,4 +1,8 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import {
+	useInfiniteQuery,
+	useQuery,
+	type InfiniteData,
+} from "@tanstack/react-query";
 import { fetchData } from "./apiFn";
 import type {
 	ApiResponse,
@@ -13,7 +17,7 @@ export const useData = <T>({
 	params,
 	options,
 }: UseAppQueryProps<T>) => {
-	return useQuery<T, APIResponseError>({ 			
+	return useQuery<T, APIResponseError>({
 		queryKey: [...queryKey, url, params],
 		queryFn: async () => {
 			const response = await fetchData<T>({ url, params });
@@ -29,10 +33,16 @@ export const useInfiniteData = <T>({
 	params,
 	options,
 }: UseAppInfiniteQueryProps<T>) => {
-	return useInfiniteQuery<ApiResponse<T>, APIResponseError>({
+	return useInfiniteQuery<
+		ApiResponse<T>,
+		APIResponseError,
+		InfiniteData<ApiResponse<T>, number>,
+		readonly unknown[],
+		number
+	>({
 		queryKey: [...queryKey, url, params],
 		initialPageParam: 1,
-		queryFn: async ({ pageParam } : { pageParam: number }) => {
+		queryFn: async ({ pageParam }: { pageParam: number }) => {
 			const response = await fetchData<ApiResponse<T>>({
 				url,
 				params: {

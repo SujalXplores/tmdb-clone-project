@@ -1,4 +1,4 @@
-import { useEffect, useState, type FunctionComponent } from "react";
+import { useEffect, useEffectEvent, useState, type FunctionComponent } from "react";
 import styles from "./MoviesContent.module.scss";
 import { NAV_MENUS } from "@/constants/Header";
 import { DRAWER_SUB_LINKS } from "@/constants/constants";
@@ -22,24 +22,27 @@ const MobileDrawer: FunctionComponent<MobileDrawerProps> = ({
 		);
 	};
 
+	const handleClose = useEffectEvent(() => {
+		onClose();
+	});
+
 	useEffect(() => {
 		if (!isOpen) return;
 		const handleKeyDown = (e: KeyboardEvent) => {
-			if (e.key === "Escape") onClose();
+			if (e.key === "Escape") handleClose();
 		};
 		document.addEventListener("keydown", handleKeyDown);
 		return () => document.removeEventListener("keydown", handleKeyDown);
-	}, [isOpen, onClose]);
+	}, [isOpen]);
+
 	const drawerMenus = NAV_MENUS.filter((menu) => menu.items.length > 0);
 
 	return (
-		<div
+		<dialog
+
 			className={`${styles.drawer} ${isOpen ? styles.show : ""}`}
-			role='dialog'
-			aria-modal='true'
 			aria-label='Mobile navigation menu'
-			aria-hidden={!isOpen}
-			tabIndex={-1}
+			open={isOpen}
 		>
 			<ul className={styles.drawerList}>
 				{drawerMenus.map((menu) => {
@@ -87,7 +90,7 @@ const MobileDrawer: FunctionComponent<MobileDrawerProps> = ({
 					</li>
 				))}
 			</ul>
-		</div>
+		</dialog>
 	);
 };
 

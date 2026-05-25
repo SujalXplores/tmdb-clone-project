@@ -6,9 +6,11 @@ const Slider = (
 		marks: Array<{ value: number; label: string }>;
 	},
 ) => {
-	const tallIndices = props.tallmarks
-		.map((targetValue) => props.marks.findIndex((m) => m.value === targetValue))
-		.filter((index) => index !== -1);
+	const tallIndices = props.tallmarks.reduce<number[]>((acc, targetValue) => {
+		const index = props.marks.findIndex((m) => m.value === targetValue);
+		if (index !== -1) acc.push(index);
+		return acc;
+	}, []);
 
 	const tallmarksSelector =
 		tallIndices.length > 0
@@ -24,7 +26,9 @@ const Slider = (
 			valueLabelDisplay='auto'
 			sx={{
 				color: "#01b4e4",
-				padding: "13px 0",
+				padding: "0",
+				marginBottom: "10px",
+				height: "26px",
 				"& .MuiSlider-thumb": {
 					height: 20,
 					width: 20,
@@ -68,6 +72,7 @@ const Slider = (
 				"& .MuiSlider-markLabel": {
 					color: "#6b7280",
 					fontSize: "14px",
+					lineHeight: "14px",
 				},
 				...props.sx,
 			}}

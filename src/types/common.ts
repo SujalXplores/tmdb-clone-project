@@ -35,8 +35,9 @@ export type UseAppInfiniteQueryProps<T> = {
 		UseInfiniteQueryOptions<
 			ApiResponse<T>,
 			APIResponseError,
-			InfiniteData<ApiResponse<T>>,
-			readonly unknown[]
+			InfiniteData<ApiResponse<T>, number>,
+			readonly unknown[],
+			number
 		>,
 		"queryKey" | "queryFn" | "initialPageParam" | "getNextPageParam"
 	>;

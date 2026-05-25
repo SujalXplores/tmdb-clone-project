@@ -1,12 +1,12 @@
 import { Navigate, Route, Routes } from "react-router";
 import Layout from "../layout/Layout";
 import { lazy, Suspense } from "react";
-import TopLoader from "@/shared/TopLoader";
+import styles from "../../src/pages/MainContent/MoviesContent.module.scss";
 
 const MoviesContent = lazy(() => import("../pages/MainContent/Index"));
 
 const SuspendedMoviesContent = () => (
-	<Suspense fallback={<TopLoader />}>
+	<Suspense fallback={<div className={styles.moviesContent}></div>}>
 		<MoviesContent />
 	</Suspense>
 );

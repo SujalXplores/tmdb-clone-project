@@ -65,7 +65,7 @@ const LanguageFilter: FunctionComponent<{
 			<SearchableSelect
 				options={LANGUAGES_OPTIONS}
 				value={filters.with_original_language}
-				getOptionKey={(o) => o.iso_639_1 ?? ""}
+				getOptionKey={(o) => o.iso_639_1 ?? null}
 				getSearchFields={(o) => [o.native_name, o.english_name]}
 				renderOption={renderLanguageOption}
 				onSelect={(option) => {

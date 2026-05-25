@@ -16,6 +16,7 @@ import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { useStickyButton } from "@/hooks/useStickyButton";
 import SearchButton from "./SearchButton";
 import MobileDrawer from "./MobileDrawer";
+import { Skeleton } from "@mui/material";
 
 const AllFiltersComponent = lazy(() => import("./Filters/AllFiltersComponent"));
 const MoviesContainer = lazy(() => import("./MoviesContainer/Movies"));
@@ -65,27 +66,38 @@ const MoviesContent = () => {
 					<h3 className={styles.heading}>{headerTitle}</h3>
 					<div className={styles.mainContent}>
 						<div>
-							<div className={styles.filtersContainer} ref={filterContainerRef}>
-								<Suspense fallback={<TopLoader />}>
+							<Suspense fallback={<Skeleton variant='rectangular' height={1000}/>}>
+								<div
+									className={styles.filtersContainer}
+									ref={filterContainerRef}
+								>
 									<AllFiltersComponent countriesData={countriesData} />
-								</Suspense>
-							</div>
-							<SearchButton
-								sx={SEARCH_BUTTON_SX}
-								onClick={applyFilters}
-								disabled={!isDirty}
-							/>
+								</div>
+								<SearchButton
+									sx={SEARCH_BUTTON_SX}
+									onClick={applyFilters}
+									disabled={!isDirty}
+								/>
+							</Suspense>
 						</div>
 						<div>
 							<Suspense fallback={<TopLoader />}>
-								<MoviesContainer
-									movies={movies}
-									isLoading={isLoading || isFetchingNextPage}
-								/>
+								<MoviesContainer movies={movies} isLoading={isLoading} />
 							</Suspense>
 							{showLoadMore &&
 								(hasInitiated ? (
-									<div ref={sentinelRef} aria-hidden='true' />
+									<>
+										<div ref={sentinelRef} aria-hidden='true' />
+										<Button
+											sx={LOAD_MORE_BUTTON_SX}
+											onClick={() => {
+												initiate();
+												void fetchNextPage();
+											}}
+										>
+											Load More
+										</Button>
+									</>
 								) : (
 									<Button
 										sx={LOAD_MORE_BUTTON_SX}

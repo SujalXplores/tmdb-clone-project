@@ -3,6 +3,7 @@
 .moviesContent {
 	background-color: $color-white;
 	margin-top: $header-height;
+	min-height: calc(100vh - $header-height);
 
 	.container {
 		margin: 0 auto;
@@ -33,10 +34,13 @@
 
 	.drawer {
 		position: fixed;
-		top: $header-height;
-		left: 0;
+		inset: $header-height auto auto 0;
+		margin: 0;
 		width: 80%;
-		height: 100%;
+		height: calc(100% - #{$header-height});
+		max-width: none;
+		max-height: none;
+
 		background: $color-brand-primary-alpha;
 		-webkit-backdrop-filter: blur(20px);
 		backdrop-filter: blur(20px);
@@ -44,6 +48,7 @@
 		padding: $nav-padding-x-sm;
 		box-sizing: border-box;
 		overflow: auto;
+		border: none;
 
 		transition: transform 0.3s ease-in-out;
 		transform: translateX(-100%);
