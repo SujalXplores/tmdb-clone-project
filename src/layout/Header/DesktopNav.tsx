@@ -36,9 +36,8 @@ const DesktopNav: FunctionComponent = () => {
 	};
 
 	useEffect(() => {
-		const timeoutId = timeoutRef.current;
 		return () => {
-			if (timeoutId) clearTimeout(timeoutId);
+			if (timeoutRef.current) clearTimeout(timeoutRef.current);
 		};
 	}, []);
 

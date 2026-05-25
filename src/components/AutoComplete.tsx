@@ -54,7 +54,7 @@ const Autocomplete = <
 			sx={{ ...sx, ...getRootSx(isSelectOnly) }}
 			popupIcon={props.popupIcon || <ChevronIcon />}
 			clearIcon={props.clearIcon || <CloseIcon />}
-			noOptionsText={props.noOptionsText || NO_OPTIONS_TEXT}
+			noOptionsText={props.noOptionsText ?? NO_OPTIONS_TEXT}
 			renderInput={(params) => (
 				<TextField
 					{...params}

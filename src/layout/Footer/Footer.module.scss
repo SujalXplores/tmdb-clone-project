@@ -100,11 +100,9 @@
 				color: $color-white;
 				cursor: pointer;
 
-				& > button {
+				& > span {
 					font-size: 1.2em;
 					color: inherit;
-					background-color: transparent;
-					border: none;
 					cursor: pointer;
 					
 					&:hover {
